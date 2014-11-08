@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <list>
 
 using namespace std;
 
@@ -99,9 +100,15 @@ class Board
 
         // Setup function
         /*
-         * Sets up a brand new chess board.
+         * Sets up the board with new pieces.
          */
         void setup();
+
+        // Cleanup function
+        /*
+         * Cleans up the remaining pieces.
+         */
+        void cleanup();
 
         // Move function
         /*
@@ -129,6 +136,24 @@ class Board
         // Board grid
         Piece* board[8][8];
 
+        // Black pieces
+        Pawn   * blackPawn1;
+        Pawn   * blackPawn2;
+        Pawn   * blackPawn3;
+        Pawn   * blackPawn4;
+        Pawn   * blackPawn5;
+        Pawn   * blackPawn6;
+        Pawn   * blackPawn7;
+        Pawn   * blackPawn8;
+        Rook   * blackRook1;
+        Rook   * blackRook2;
+        Knight * blackKnight1;
+        Knight * blackKnight2;
+        Bishop * blackBishop1;
+        Bishop * blackBishop2;
+        Queen  * blackQueen;
+        King   * blackKing;
+
         // White pieces
         Pawn   * whitePawn1;
         Pawn   * whitePawn2;
@@ -147,22 +172,7 @@ class Board
         Queen  * whiteQueen;
         King   * whiteKing;
 
-        // Black pieces
-        Pawn   * blackPawn1;
-        Pawn   * blackPawn2;
-        Pawn   * blackPawn3;
-        Pawn   * blackPawn4;
-        Pawn   * blackPawn5;
-        Pawn   * blackPawn6;
-        Pawn   * blackPawn7;
-        Pawn   * blackPawn8;
-        Rook   * blackRook1;
-        Rook   * blackRook2;
-        Knight * blackKnight1;
-        Knight * blackKnight2;
-        Bishop * blackBishop1;
-        Bishop * blackBishop2;
-        Queen  * blackQueen;
-        King   * blackKing;
+        // List of live pieces
+        list<Piece *> pieces;
 };
 

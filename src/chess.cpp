@@ -88,6 +88,52 @@ void Board::setup()
     board[5][7] = whiteBishop2;
     board[6][7] = whiteKnight2;
     board[7][7] = whiteRook2;
+
+    // Add pieces to live pieces list
+    pieces.push_back(blackPawn1);
+    pieces.push_back(blackPawn2);
+    pieces.push_back(blackPawn3);
+    pieces.push_back(blackPawn4);
+    pieces.push_back(blackPawn5);
+    pieces.push_back(blackPawn6);
+    pieces.push_back(blackPawn7);
+    pieces.push_back(blackPawn8);
+
+    pieces.push_back(blackRook1);
+    pieces.push_back(blackRook2);
+    pieces.push_back(blackKnight1);
+    pieces.push_back(blackKnight2);
+    pieces.push_back(blackBishop1);
+    pieces.push_back(blackBishop2);
+    pieces.push_back(blackQueen);
+    pieces.push_back(blackKing);
+
+    pieces.push_back(whitePawn1);
+    pieces.push_back(whitePawn2);
+    pieces.push_back(whitePawn3);
+    pieces.push_back(whitePawn4);
+    pieces.push_back(whitePawn5);
+    pieces.push_back(whitePawn6);
+    pieces.push_back(whitePawn7);
+    pieces.push_back(whitePawn8);
+
+    pieces.push_back(whiteRook1);
+    pieces.push_back(whiteRook2);
+    pieces.push_back(whiteKnight1);
+    pieces.push_back(whiteKnight2);
+    pieces.push_back(whiteBishop1);
+    pieces.push_back(whiteBishop2);
+    pieces.push_back(whiteQueen);
+    pieces.push_back(whiteKing);
+}
+
+void Board::cleanup()
+{
+    auto it = pieces.begin();
+    while (it != pieces.end()) {
+        it = pieces.erase(it);
+        it++;
+    }
 }
 
 bool Board::canMove(int x1, int y1, int x2, int y2)

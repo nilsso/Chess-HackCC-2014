@@ -1,8 +1,13 @@
 #include "chess.h"
 #include<iostream>
 
-const int X_MAX = 8;
-const int Y_MAX = 8;
+Piece::Piece(int x, int y, PieceColor color):
+    x_(x),
+    y_(y),
+    color_(color)
+{
+
+}
 
 Board::Board()
 {
@@ -12,40 +17,40 @@ Board::Board()
 void Board::setup()
 {
     // White pieces
-    Pawn   * whitePawn1   = new Pawn(0, 6, WHITE);
-    Pawn   * whitePawn2   = new Pawn(1, 6, WHITE);
-    Pawn   * whitePawn3   = new Pawn(2, 6, WHITE);
-    Pawn   * whitePawn4   = new Pawn(2, 6, WHITE);
-    Pawn   * whitePawn5   = new Pawn(2, 6, WHITE);
-    Pawn   * whitePawn6   = new Pawn(2, 6, WHITE);
-    Pawn   * whitePawn7   = new Pawn(2, 6, WHITE);
-    Pawn   * whitePawn8   = new Pawn(2, 6, WHITE);
-    Rook   * whiteRook1   = new Rook(2, 6, WHITE);
-    Rook   * whiteRook2   = new Rook(2, 6, WHITE);
-    Knight * whiteKnight1 = new Knight(2, 6, WHITE);
-    Knight * whiteKnight2 = new Knight(2, 6, WHITE);
-    Bishop * whiteBishop1 = new Bishop(2, 6, WHITE);
-    Bishop * whiteBishop2 = new Bishop(2, 6, WHITE);
-    Queen  * whiteQueen   = new Queen(2, 6, WHITE);
-    King   * whiteKing    = new King(2, 6, WHITE);
+    Pawn   * whitePawn1   = new Pawn(0, 6, Piece::BLACK);
+    Pawn   * whitePawn2   = new Pawn(1, 6, Piece::BLACK);
+    Pawn   * whitePawn3   = new Pawn(2, 6, Piece::BLACK);
+    Pawn   * whitePawn4   = new Pawn(2, 6, Piece::BLACK);
+    Pawn   * whitePawn5   = new Pawn(2, 6, Piece::BLACK);
+    Pawn   * whitePawn6   = new Pawn(2, 6, Piece::BLACK);
+    Pawn   * whitePawn7   = new Pawn(2, 6, Piece::BLACK);
+    Pawn   * whitePawn8   = new Pawn(2, 6, Piece::BLACK);
+    Rook   * whiteRook1   = new Rook(2, 6, Piece::BLACK);
+    Rook   * whiteRook2   = new Rook(2, 6, Piece::BLACK);
+    Knight * whiteKnight1 = new Knight(2, 6, Piece::BLACK);
+    Knight * whiteKnight2 = new Knight(2, 6, Piece::BLACK);
+    Bishop * whiteBishop1 = new Bishop(2, 6, Piece::BLACK);
+    Bishop * whiteBishop2 = new Bishop(2, 6, Piece::BLACK);
+    Queen  * whiteQueen   = new Queen(2, 6, Piece::BLACK);
+    King   * whiteKing    = new King(2, 6, Piece::BLACK);
 
     // White pieces
-    Pawn   * blackPawn1   = new Pawn(0, 6, WHITE);
-    Pawn   * blackPawn2   = new Pawn(1, 6, WHITE);
-    Pawn   * blackPawn3   = new Pawn(2, 6, WHITE);
-    Pawn   * blackPawn4   = new Pawn(2, 6, WHITE);
-    Pawn   * blackPawn5   = new Pawn(2, 6, WHITE);
-    Pawn   * blackPawn6   = new Pawn(2, 6, WHITE);
-    Pawn   * blackPawn7   = new Pawn(2, 6, WHITE);
-    Pawn   * blackPawn8   = new Pawn(2, 6, WHITE);
-    Rook   * blackRook1   = new Rook(2, 6, WHITE);
-    Rook   * blackRook2   = new Rook(2, 6, WHITE);
-    Knight * blackKnight1 = new Knight(2, 6, WHITE);
-    Knight * blackKnight2 = new Knight(2, 6, WHITE);
-    Bishop * blackBishop1 = new Bishop(2, 6, WHITE);
-    Bishop * blackBishop2 = new Bishop(2, 6, WHITE);
-    Queen  * blackQueen   = new Queen(2, 6, WHITE);
-    King   * blackKing    = new King(2, 6, WHITE);
+    Pawn   * blackPawn1   = new Pawn(0, 6, Piece::WHITE);
+    Pawn   * blackPawn2   = new Pawn(1, 6, Piece::WHITE);
+    Pawn   * blackPawn3   = new Pawn(2, 6, Piece::WHITE);
+    Pawn   * blackPawn4   = new Pawn(2, 6, Piece::WHITE);
+    Pawn   * blackPawn5   = new Pawn(2, 6, Piece::WHITE);
+    Pawn   * blackPawn6   = new Pawn(2, 6, Piece::WHITE);
+    Pawn   * blackPawn7   = new Pawn(2, 6, Piece::WHITE);
+    Pawn   * blackPawn8   = new Pawn(2, 6, Piece::WHITE);
+    Rook   * blackRook1   = new Rook(2, 6, Piece::WHITE);
+    Rook   * blackRook2   = new Rook(2, 6, Piece::WHITE);
+    Knight * blackKnight1 = new Knight(2, 6, Piece::WHITE);
+    Knight * blackKnight2 = new Knight(2, 6, Piece::WHITE);
+    Bishop * blackBishop1 = new Bishop(2, 6, Piece::WHITE);
+    Bishop * blackBishop2 = new Bishop(2, 6, Piece::WHITE);
+    Queen  * blackQueen   = new Queen(2, 6, Piece::WHITE);
+    King   * blackKing    = new King(2, 6, Piece::WHITE);
 
     // Populate board grid
     board[0][0] = blackRook1;
@@ -88,7 +93,7 @@ void Board::setup()
 bool Board::canMove(int x1, int y1, int x2, int y2)
 {
     // If new coordinates are outside limits
-    if (x2 < 0 || x2 > X_MAX || y2 < 0 || y2 > Y_MAX)
+    if (x2 < 0 || x2 > MAX_X || y2 < 0 || y2 > MAX_Y)
         return false;
 
     return board[x1][y1]->canMove(x2, y2);
@@ -110,15 +115,14 @@ void Board::printBoardArray(){
 }
 
 int main(){
-   
    //string email = "test@test.com";
 
    //Board b;
-   
+
    //b.printBoardArray();
-   
+
    //b.move(email,0,4,4,4);
-   
+
    //b.printBoardArray();
 
    //b.move(email,1,3,5,5);
@@ -126,9 +130,8 @@ int main(){
    //b.printBoardArray();
 
    //cin.ignore();
-   
-   return 0;
 
+   return 0;
 }
 
 

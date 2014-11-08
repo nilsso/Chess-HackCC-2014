@@ -4,6 +4,91 @@
 
 using namespace std;
 
+// -----------------------------------------------------------------------------
+// Piece structures
+// ---------------------------------------------------------------------
+// Piece interface
+struct Piece
+{
+    // Piece property enums
+    enum PieceColor { WHITE, BLACK };
+
+    // Constructor
+    Piece(int x, int y, PieceColor color);
+
+    // Functions
+    virtual bool canMove(int x, int y) = 0;
+
+    // Data members
+    int x_, y_;
+    PieceColor color_;
+};
+
+struct Pawn: public Piece
+{
+    // Constructor
+    Pawn(int x, int y, PieceColor color);
+
+    // Functions
+    bool canMove(int x, int y);
+};
+
+struct Rook: public Piece
+{
+    // Constructor
+    Rook(int x, int y, PieceColor color):
+        Piece(x, y, color) {}
+
+    // Functions
+    bool canMove(int x, int y);
+};
+
+struct Knight: public Piece
+{
+    // Constructor
+    Knight(int x, int y, PieceColor color):
+        Piece(x, y, color) {}
+
+
+    // Functions
+    bool canMove(int x, int y);
+};
+
+struct Bishop: public Piece
+{
+    // Constructor
+    Bishop(int x, int y, PieceColor color):
+        Piece(x, y, color) {}
+
+
+    // Functions
+    bool canMove(int x, int y);
+};
+
+struct Queen: public Piece
+{
+    // Constructor
+    Queen(int x, int y, PieceColor color):
+        Piece(x, y, color) {}
+
+
+    // Functions
+    bool canMove(int x, int y);
+};
+
+struct King: public Piece
+{
+    // Constructor
+    King(int x, int y, PieceColor color):
+        Piece(x, y, color) {}
+
+    // Functions
+    bool canMove(int x, int y);
+};
+
+// -----------------------------------------------------------------------------
+// Board class
+// -----------------------------------------------------------------------------
 class Board
 {
     public:
@@ -38,56 +123,8 @@ class Board
         void printBoardArray();
 
     private:
-        // Piece property enums
-        enum PieceColor { WHITE, BLACK };
-
-        // ---------------------------------------------------------------------
-        // Piece structures
-        // ---------------------------------------------------------------------
-        // Piece interface
-        struct Piece
-        {
-            Piece(int x, int y, PieceColor color);
-            int x_, y_;
-            PieceColor color_;
-            virtual bool canMove(int x, int y) = 0;
-        };
-
-        struct Pawn: public Piece
-        {
-            Pawn(int x, int y, PieceColor color);
-            bool canMove(int x, int y);
-        };
-
-        struct Rook: public Piece
-        {
-            Rook(int x, int y, PieceColor color);
-            bool canMove(int x, int y);
-        };
-
-        struct Knight: public Piece
-        {
-            Knight(int x, int y, PieceColor color);
-            bool canMove(int x, int y);
-        };
-
-        struct Bishop: public Piece
-        {
-            Bishop(int x, int y, PieceColor color);
-            bool canMove(int x, int y);
-        };
-
-        struct Queen: public Piece
-        {
-            Queen(int x, int y, PieceColor color);
-            bool canMove(int x, int y);
-        };
-
-        struct King: public Piece
-        {
-            King(int x, int y, PieceColor color);
-            bool canMove(int x, int y);
-        };
+        const unsigned int MAX_X = 8;
+        const unsigned int MAX_Y = 8;
 
         // Board grid
         Piece* board[8][8];

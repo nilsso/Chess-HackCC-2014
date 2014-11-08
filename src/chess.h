@@ -5,6 +5,9 @@
 
 using namespace std;
 
+// Forward declaration
+class Board;
+
 // -----------------------------------------------------------------------------
 // Piece structures
 // ---------------------------------------------------------------------
@@ -12,79 +15,20 @@ using namespace std;
 struct Piece
 {
     // Piece property enums
-    enum PieceColor { WHITE, BLACK };
+    enum class PieceType { PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING };
+    enum class PieceColor { WHITE, BLACK };
 
     // Constructor
-    Piece(int x, int y, PieceColor color);
+    Piece(Board *board, PieceType type, PieceColor color, int x, int y);
 
-    // Functions
-    virtual bool canMove(int x, int y) = 0;
+    // Static functions
+    static bool canMove(Piece *piece, int x, int y);
 
     // Data members
-    int x_, y_;
+    Board *board_;
+    PieceType type_;
     PieceColor color_;
-};
-
-struct Pawn: public Piece
-{
-    // Constructor
-    Pawn(int x, int y, PieceColor color);
-
-    // Functions
-    bool canMove(int x, int y);
-};
-
-struct Rook: public Piece
-{
-    // Constructor
-    Rook(int x, int y, PieceColor color):
-        Piece(x, y, color) {}
-
-    // Functions
-    bool canMove(int x, int y);
-};
-
-struct Knight: public Piece
-{
-    // Constructor
-    Knight(int x, int y, PieceColor color):
-        Piece(x, y, color) {}
-
-
-    // Functions
-    bool canMove(int x, int y);
-};
-
-struct Bishop: public Piece
-{
-    // Constructor
-    Bishop(int x, int y, PieceColor color):
-        Piece(x, y, color) {}
-
-
-    // Functions
-    bool canMove(int x, int y);
-};
-
-struct Queen: public Piece
-{
-    // Constructor
-    Queen(int x, int y, PieceColor color):
-        Piece(x, y, color) {}
-
-
-    // Functions
-    bool canMove(int x, int y);
-};
-
-struct King: public Piece
-{
-    // Constructor
-    King(int x, int y, PieceColor color):
-        Piece(x, y, color) {}
-
-    // Functions
-    bool canMove(int x, int y);
+    int x_, y_;
 };
 
 // -----------------------------------------------------------------------------
@@ -95,6 +39,22 @@ class Board
     public:
         // Move return type enums
         enum MoveReturnType { VALID, INVALID, BLOCKED };
+
+        // Piece enumeration names
+        enum BoardPiece {
+            // Black
+            BLACK_PAWN1, BLACK_PAWN2, BLACK_PAWN3, BLACK_PAWN4,
+            BLACK_PAWN5, BLACK_PAWN6, BLACK_PAWN7, BLACK_PAWN8,
+            BLACK_ROOK1, BLACK_ROOK2, BLACK_KNIGHT1, BLACK_KNIGHT2,
+            BLACK_BISHOP1, BLACK_BISHOP2, BLACK_QUEEN, BLACK_KING,
+
+            // White
+            WHITE_PAWN1, WHITE_PAWN2, WHITE_PAWN3, WHITE_PAWN4,
+            WHITE_PAWN5, WHITE_PAWN6, WHITE_PAWN7, WHITE_PAWN8,
+            WHITE_ROOK1, WHITE_ROOK2, WHITE_KNIGHT1, WHITE_KNIGHT2,
+            WHITE_BISHOP1, WHITE_BISHOP2, WHITE_QUEEN, WHITE_KING
+        };
+
         // Board constructor
         Board();
 
@@ -133,46 +93,13 @@ class Board
         const unsigned int MAX_X = 8;
         const unsigned int MAX_Y = 8;
 
-        // Board grid
+        // Board matrix
         Piece* board[8][8];
 
-        // Black pieces
-        Pawn   * blackPawn1;
-        Pawn   * blackPawn2;
-        Pawn   * blackPawn3;
-        Pawn   * blackPawn4;
-        Pawn   * blackPawn5;
-        Pawn   * blackPawn6;
-        Pawn   * blackPawn7;
-        Pawn   * blackPawn8;
-        Rook   * blackRook1;
-        Rook   * blackRook2;
-        Knight * blackKnight1;
-        Knight * blackKnight2;
-        Bishop * blackBishop1;
-        Bishop * blackBishop2;
-        Queen  * blackQueen;
-        King   * blackKing;
-
-        // White pieces
-        Pawn   * whitePawn1;
-        Pawn   * whitePawn2;
-        Pawn   * whitePawn3;
-        Pawn   * whitePawn4;
-        Pawn   * whitePawn5;
-        Pawn   * whitePawn6;
-        Pawn   * whitePawn7;
-        Pawn   * whitePawn8;
-        Rook   * whiteRook1;
-        Rook   * whiteRook2;
-        Knight * whiteKnight1;
-        Knight * whiteKnight2;
-        Bishop * whiteBishop1;
-        Bishop * whiteBishop2;
-        Queen  * whiteQueen;
-        King   * whiteKing;
+        // Pieces array
+        Piece *pieces[32];
 
         // List of live pieces
-        list<Piece *> pieces;
+        list<Piece *> live_pieces;
 };
 

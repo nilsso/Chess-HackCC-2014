@@ -1,12 +1,56 @@
 #include "chess.h"
 #include<iostream>
 
-Piece::Piece(int x, int y, PieceColor color):
+typedef Piece::PieceType PType;
+typedef Piece::PieceColor PColor;
+
+Piece::Piece(Board *board, PieceType type, PieceColor color, int x, int y):
+    board_(board),
     x_(x),
     y_(y),
     color_(color)
 {
 
+}
+
+bool Piece::canMove(Piece *piece, int x, int y)
+{
+    //piece->y_ += (piece->color_ == PColor::BLACK ? 1 : -1) * y;
+
+    switch (piece->type_) {
+        case (PType::PAWN):
+        {
+
+            break;
+        }
+        case (PType::ROOK):
+        {
+            // If rook is moving in only one axis
+            return !(((piece->x_+ x) != 0) && ((piece->y_ + y) != 0));
+        }
+        case (PType::KNIGHT):
+        {
+
+            break;
+        }
+        case (PType::BISHOP):
+        {
+
+            break;
+        }
+        case (PType::QUEEN):
+        {
+
+            break;
+        }
+        case (PType::KING):
+        {
+
+            break;
+        }
+    }
+
+    return false;
 }
 
 Board::Board()
@@ -16,122 +60,123 @@ Board::Board()
 
 void Board::setup()
 {
-    // White pieces
-    Pawn   * whitePawn1   = new Pawn(0, 6, Piece::BLACK);
-    Pawn   * whitePawn2   = new Pawn(1, 6, Piece::BLACK);
-    Pawn   * whitePawn3   = new Pawn(2, 6, Piece::BLACK);
-    Pawn   * whitePawn4   = new Pawn(2, 6, Piece::BLACK);
-    Pawn   * whitePawn5   = new Pawn(2, 6, Piece::BLACK);
-    Pawn   * whitePawn6   = new Pawn(2, 6, Piece::BLACK);
-    Pawn   * whitePawn7   = new Pawn(2, 6, Piece::BLACK);
-    Pawn   * whitePawn8   = new Pawn(2, 6, Piece::BLACK);
-    Rook   * whiteRook1   = new Rook(2, 6, Piece::BLACK);
-    Rook   * whiteRook2   = new Rook(2, 6, Piece::BLACK);
-    Knight * whiteKnight1 = new Knight(2, 6, Piece::BLACK);
-    Knight * whiteKnight2 = new Knight(2, 6, Piece::BLACK);
-    Bishop * whiteBishop1 = new Bishop(2, 6, Piece::BLACK);
-    Bishop * whiteBishop2 = new Bishop(2, 6, Piece::BLACK);
-    Queen  * whiteQueen   = new Queen(2, 6, Piece::BLACK);
-    King   * whiteKing    = new King(2, 6, Piece::BLACK);
+    // Create new piece instances
+    pieces[BLACK_ROOK1]   = new Piece(PType::ROOK, PColor::BLACK, 0, 0);
+    pieces[BLACK_ROOK1]   = new Piece(PType::ROOK, PColor::BLACK, 1, 0);
+    pieces[BLACK_KNIGHT2] = new Piece(PType::KNIGHT, PColor::BLACK, 2, 0);
+    pieces[BLACK_KNIGHT2] = new Piece(PType::KNIGHT, PColor::BLACK, 3, 0);
+    pieces[BLACK_BISHOP2] = new Piece(PType::BISHOP, PColor::BLACK, 4, 0);
+    pieces[BLACK_BISHOP2] = new Piece(PType::BISHOP, PColor::BLACK, 5, 0);
+    pieces[BLACK_QUEEN]   = new Piece(PType::QUEEN, PColor::BLACK, 6, 0);
+    pieces[BLACK_KING]    = new Piece(PType::KING, PColor::BLACK, 7, 0);
 
-    // White pieces
-    Pawn   * blackPawn1   = new Pawn(0, 6, Piece::WHITE);
-    Pawn   * blackPawn2   = new Pawn(1, 6, Piece::WHITE);
-    Pawn   * blackPawn3   = new Pawn(2, 6, Piece::WHITE);
-    Pawn   * blackPawn4   = new Pawn(2, 6, Piece::WHITE);
-    Pawn   * blackPawn5   = new Pawn(2, 6, Piece::WHITE);
-    Pawn   * blackPawn6   = new Pawn(2, 6, Piece::WHITE);
-    Pawn   * blackPawn7   = new Pawn(2, 6, Piece::WHITE);
-    Pawn   * blackPawn8   = new Pawn(2, 6, Piece::WHITE);
-    Rook   * blackRook1   = new Rook(2, 6, Piece::WHITE);
-    Rook   * blackRook2   = new Rook(2, 6, Piece::WHITE);
-    Knight * blackKnight1 = new Knight(2, 6, Piece::WHITE);
-    Knight * blackKnight2 = new Knight(2, 6, Piece::WHITE);
-    Bishop * blackBishop1 = new Bishop(2, 6, Piece::WHITE);
-    Bishop * blackBishop2 = new Bishop(2, 6, Piece::WHITE);
-    Queen  * blackQueen   = new Queen(2, 6, Piece::WHITE);
-    King   * blackKing    = new King(2, 6, Piece::WHITE);
+    pieces[BLACK_PAWN1]   = new Piece(PType::PAWN, PColor::BLACK, 0, 1);
+    pieces[BLACK_PAWN2]   = new Piece(PType::PAWN, PColor::BLACK, 1, 1);
+    pieces[BLACK_PAWN3]   = new Piece(PType::PAWN, PColor::BLACK, 2, 1);
+    pieces[BLACK_PAWN4]   = new Piece(PType::PAWN, PColor::BLACK, 3, 1);
+    pieces[BLACK_PAWN5]   = new Piece(PType::PAWN, PColor::BLACK, 4, 1);
+    pieces[BLACK_PAWN6]   = new Piece(PType::PAWN, PColor::BLACK, 5, 1);
+    pieces[BLACK_PAWN7]   = new Piece(PType::PAWN, PColor::BLACK, 6, 1);
+    pieces[BLACK_PAWN8]   = new Piece(PType::PAWN, PColor::BLACK, 7, 1);
 
-    // Populate board grid
-    board[0][0] = blackRook1;
-    board[1][0] = blackKnight1;
-    board[2][0] = blackBishop1;
-    board[3][0] = blackQueen;
-    board[4][0] = blackKing;
-    board[5][0] = blackBishop2;
-    board[6][0] = blackKnight2;
-    board[7][0] = blackRook2;
+    pieces[WHITE_PAWN1]   = new Piece(PType::PAWN, PColor::WHITE, 0, 6);
+    pieces[WHITE_PAWN2]   = new Piece(PType::PAWN, PColor::WHITE, 1, 6);
+    pieces[WHITE_PAWN3]   = new Piece(PType::PAWN, PColor::WHITE, 2, 6);
+    pieces[WHITE_PAWN4]   = new Piece(PType::PAWN, PColor::WHITE, 3, 6);
+    pieces[WHITE_PAWN5]   = new Piece(PType::PAWN, PColor::WHITE, 4, 6);
+    pieces[WHITE_PAWN6]   = new Piece(PType::PAWN, PColor::WHITE, 5, 6);
+    pieces[WHITE_PAWN7]   = new Piece(PType::PAWN, PColor::WHITE, 6, 6);
+    pieces[WHITE_PAWN8]   = new Piece(PType::PAWN, PColor::WHITE, 7, 6);
 
-    board[0][1] = blackPawn1;
-    board[1][1] = blackPawn2;
-    board[2][1] = blackPawn3;
-    board[3][1] = blackPawn4;
-    board[4][1] = blackPawn5;
-    board[5][1] = blackPawn6;
-    board[6][1] = blackPawn7;
-    board[7][1] = blackPawn8;
+    pieces[WHITE_ROOK1]   = new Piece(PType::ROOK, PColor::WHITE, 0, 7);
+    pieces[WHITE_ROOK1]   = new Piece(PType::ROOK, PColor::WHITE, 1, 7);
+    pieces[WHITE_KNIGHT2] = new Piece(PType::KNIGHT, PColor::WHITE, 2, 7);
+    pieces[WHITE_KNIGHT2] = new Piece(PType::KNIGHT, PColor::WHITE, 3, 7);
+    pieces[WHITE_BISHOP2] = new Piece(PType::BISHOP, PColor::WHITE, 4, 7);
+    pieces[WHITE_BISHOP2] = new Piece(PType::BISHOP, PColor::WHITE, 5, 7);
+    pieces[WHITE_QUEEN]   = new Piece(PType::QUEEN, PColor::WHITE, 6, 7);
+    pieces[WHITE_KING]    = new Piece(PType::KING, PColor::WHITE, 7, 7);
 
-    board[0][6] = whitePawn1;
-    board[1][6] = whitePawn2;
-    board[2][6] = whitePawn3;
-    board[3][6] = whitePawn4;
-    board[4][6] = whitePawn5;
-    board[5][6] = whitePawn6;
-    board[6][6] = whitePawn7;
-    board[7][6] = whitePawn8;
+    // Populate board matrix
+    board[0][0] = pieces[BLACK_ROOK1];
+    board[0][1] = pieces[BLACK_ROOK2];
+    board[0][2] = pieces[BLACK_KNIGHT1];
+    board[0][3] = pieces[BLACK_KNIGHT2];
+    board[0][4] = pieces[BLACK_BISHOP1];
+    board[0][5] = pieces[BLACK_BISHOP2];
+    board[0][6] = pieces[BLACK_QUEEN];
+    board[0][7] = pieces[BLACK_KING];
 
-    board[0][7] = whiteRook1;
-    board[1][7] = whiteKnight1;
-    board[2][7] = whiteBishop1;
-    board[3][7] = whiteQueen;
-    board[4][7] = whiteKing;
-    board[5][7] = whiteBishop2;
-    board[6][7] = whiteKnight2;
-    board[7][7] = whiteRook2;
+    board[1][0] = pieces[BLACK_PAWN1];
+    board[1][1] = pieces[BLACK_PAWN2];
+    board[1][2] = pieces[BLACK_PAWN3];
+    board[1][3] = pieces[BLACK_PAWN4];
+    board[1][4] = pieces[BLACK_PAWN5];
+    board[1][5] = pieces[BLACK_PAWN6];
+    board[1][6] = pieces[BLACK_PAWN7];
+    board[1][7] = pieces[BLACK_PAWN8];
+
+    board[6][0] = pieces[WHITE_PAWN1];
+    board[6][1] = pieces[WHITE_PAWN2];
+    board[6][2] = pieces[WHITE_PAWN3];
+    board[6][3] = pieces[WHITE_PAWN4];
+    board[6][4] = pieces[WHITE_PAWN5];
+    board[6][5] = pieces[WHITE_PAWN6];
+    board[6][6] = pieces[WHITE_PAWN7];
+    board[6][7] = pieces[WHITE_PAWN8];
+
+    board[7][0] = pieces[WHITE_ROOK1];
+    board[7][1] = pieces[WHITE_ROOK2];
+    board[7][2] = pieces[WHITE_KNIGHT1];
+    board[7][3] = pieces[WHITE_KNIGHT2];
+    board[7][4] = pieces[WHITE_BISHOP1];
+    board[7][5] = pieces[WHITE_BISHOP2];
+    board[7][6] = pieces[WHITE_QUEEN];
+    board[7][7] = pieces[WHITE_KING];
 
     // Add pieces to live pieces list
-    pieces.push_back(blackPawn1);
-    pieces.push_back(blackPawn2);
-    pieces.push_back(blackPawn3);
-    pieces.push_back(blackPawn4);
-    pieces.push_back(blackPawn5);
-    pieces.push_back(blackPawn6);
-    pieces.push_back(blackPawn7);
-    pieces.push_back(blackPawn8);
+    live_pieces.push_back(pieces[BLACK_PAWN1]);
+    live_pieces.push_back(pieces[BLACK_PAWN2]);
+    live_pieces.push_back(pieces[BLACK_PAWN3]);
+    live_pieces.push_back(pieces[BLACK_PAWN4]);
+    live_pieces.push_back(pieces[BLACK_PAWN5]);
+    live_pieces.push_back(pieces[BLACK_PAWN6]);
+    live_pieces.push_back(pieces[BLACK_PAWN7]);
+    live_pieces.push_back(pieces[BLACK_PAWN8]);
 
-    pieces.push_back(blackRook1);
-    pieces.push_back(blackRook2);
-    pieces.push_back(blackKnight1);
-    pieces.push_back(blackKnight2);
-    pieces.push_back(blackBishop1);
-    pieces.push_back(blackBishop2);
-    pieces.push_back(blackQueen);
-    pieces.push_back(blackKing);
+    live_pieces.push_back(pieces[BLACK_ROOK1]);
+    live_pieces.push_back(pieces[BLACK_ROOK2]);
+    live_pieces.push_back(pieces[BLACK_KNIGHT1]);
+    live_pieces.push_back(pieces[BLACK_KNIGHT2]);
+    live_pieces.push_back(pieces[BLACK_BISHOP1]);
+    live_pieces.push_back(pieces[BLACK_BISHOP2]);
+    live_pieces.push_back(pieces[BLACK_QUEEN]);
+    live_pieces.push_back(pieces[BLACK_KING]);
 
-    pieces.push_back(whitePawn1);
-    pieces.push_back(whitePawn2);
-    pieces.push_back(whitePawn3);
-    pieces.push_back(whitePawn4);
-    pieces.push_back(whitePawn5);
-    pieces.push_back(whitePawn6);
-    pieces.push_back(whitePawn7);
-    pieces.push_back(whitePawn8);
+    live_pieces.push_back(pieces[WHITE_PAWN1]);
+    live_pieces.push_back(pieces[WHITE_PAWN2]);
+    live_pieces.push_back(pieces[WHITE_PAWN3]);
+    live_pieces.push_back(pieces[WHITE_PAWN4]);
+    live_pieces.push_back(pieces[WHITE_PAWN5]);
+    live_pieces.push_back(pieces[WHITE_PAWN6]);
+    live_pieces.push_back(pieces[WHITE_PAWN7]);
+    live_pieces.push_back(pieces[WHITE_PAWN8]);
 
-    pieces.push_back(whiteRook1);
-    pieces.push_back(whiteRook2);
-    pieces.push_back(whiteKnight1);
-    pieces.push_back(whiteKnight2);
-    pieces.push_back(whiteBishop1);
-    pieces.push_back(whiteBishop2);
-    pieces.push_back(whiteQueen);
-    pieces.push_back(whiteKing);
+    live_pieces.push_back(pieces[WHITE_ROOK1]);
+    live_pieces.push_back(pieces[WHITE_ROOK2]);
+    live_pieces.push_back(pieces[WHITE_KNIGHT1]);
+    live_pieces.push_back(pieces[WHITE_KNIGHT2]);
+    live_pieces.push_back(pieces[WHITE_BISHOP1]);
+    live_pieces.push_back(pieces[WHITE_BISHOP2]);
+    live_pieces.push_back(pieces[WHITE_QUEEN]);
+    live_pieces.push_back(pieces[WHITE_KING]);
 }
 
 void Board::cleanup()
 {
-    auto it = pieces.begin();
-    while (it != pieces.end()) {
-        it = pieces.erase(it);
+    auto it = live_pieces.begin();
+    while (it != live_pieces.end()) {
+        it = live_pieces.erase(it);
         it++;
     }
 }
@@ -142,7 +187,8 @@ bool Board::canMove(int x1, int y1, int x2, int y2)
     if (x2 < 0 || x2 > MAX_X || y2 < 0 || y2 > MAX_Y)
         return false;
 
-    return board[x1][y1]->canMove(x2, y2);
+    // If piece can move to position
+    return Piece::canMove(board[y1][x1], x2, y2);
 }
 
 void Board::printBoardArray(){

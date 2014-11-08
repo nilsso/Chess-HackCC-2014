@@ -19,21 +19,14 @@ Move given *start position* and *end position*
 
 1.  Pre-move
     1.  Could the piece move from start to end given piece's rule set?
-
-        **TRUE**: Return `INVALID`.
-
+        -   **TRUE**: Return `INVALID`.
     2.  Is that move blocked by another piece?
-
-        **True**: Return `BLOCKED`.
-
-Create temporary board state with piece moved.
-
+        -   **True**: Return `BLOCKED`.
+    -   Create temporary board state with piece moved.
 2.  Post-move
     1.  Would the current board state expose you you *check*?
-
-        **True**: Return `OWN_KING_CHECK`.
-
-Return `VALID`.
+        -   **True**: Return `OWN_KING_CHECK`.
+    -   Return `VALID`.
 
 Sources
 -------

@@ -22,10 +22,10 @@ Move given *start position* and *end position*
         -   **TRUE**: Return `INVALID`.
     2.  Is that move blocked by another piece?
         -   **True**: Return `BLOCKED`.
-    -   Create temporary board state with piece moved.
+    3.   Create temporary board state with piece moved.
 2.  Post-move
     1.  Would the current board state expose you you *check*?
-        -   **True**: Return `OWN_KING_CHECK`.
+    2.  **True**: Return `OWN_KING_CHECK`.
     -   Return `VALID`.
 
 Sources

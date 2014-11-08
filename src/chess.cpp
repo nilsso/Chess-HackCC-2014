@@ -1,6 +1,9 @@
 #include "chess.h"
 #include<iostream>
 
+const int X_MAX = 8;
+const int Y_MAX = 8;
+
 Board::Board()
 {
    Board::setup();
@@ -82,52 +85,47 @@ void Board::setup()
     board[7][7] = whiteRook2;
 }
 
-void Board::move(string email_address, int row1, int col1, int row2, int col2)
+bool Board::canMove(int x1, int y1, int x2, int y2)
 {
-   bool success = true;
+    // If new coordinates are outside limits
+    if (x2 < 0 || x2 > X_MAX || y2 < 0 || y2 > Y_MAX)
+        return false;
 
-   if(board[row2][col2]->type_ == EMPTY){
-      *(board[row2][col2]) = *(board[row1][col1]);
-      board[row1][col1]->type_ = EMPTY;
-   }
-   else 
-      success = false;
-
+    return board[x1][y1]->canMove(x2, y2);
 }
 
 void Board::printBoardArray(){
-   for(int i = 0; i < 8; i++){
-      for(int j = 0; j < 8; j++){
-         if(board[i][j]->type_ == EMPTY){
-            cout << "x  ";
-         }
-         else{
-            cout << board[i][j]->type_ << "  ";
-         }
-      }
-      cout << endl;
-   }
-   cout << endl;
-
+   //for(int i = 0; i < 8; i++){
+      //for(int j = 0; j < 8; j++){
+         //if(board[i][j]){
+            //cout << "x  ";
+         //}
+         //else{
+            //cout << board[i][j]->type_ << "  ";
+         //}
+      //}
+      //cout << endl;
+   //}
+   //cout << endl;
 }
 
 int main(){
    
-   string email = "test@test.com";
+   //string email = "test@test.com";
 
-   Board b;
+   //Board b;
    
-   b.printBoardArray();
+   //b.printBoardArray();
    
-   b.move(email,0,4,4,4);
+   //b.move(email,0,4,4,4);
    
-   b.printBoardArray();
+   //b.printBoardArray();
 
-   b.move(email,1,3,5,5);
+   //b.move(email,1,3,5,5);
 
-   b.printBoardArray();
+   //b.printBoardArray();
 
-   cin.ignore();
+   //cin.ignore();
    
    return 0;
 

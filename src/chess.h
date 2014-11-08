@@ -33,7 +33,9 @@ class Board
          * @param x2 Destination x-coordinate.
          * @param y2 Destination y-coordinate.
          */
-        void canMove(int x1, int y1, int x2, int y2);
+        bool canMove(int x1, int y1, int x2, int y2);
+
+        void printBoardArray();
 
     private:
         // Piece property enums

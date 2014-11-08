@@ -35,3 +35,8 @@ Create temporary board state with piece moved.
 
 Return `VALID`.
 
+Sources
+-------
+
+[Chess Images](http://www.clker.com/clipart-7190.html)
+[Font](https://www.behance.net/gallery/19484739/Big-John-Slim-Joe-FREE-Font)

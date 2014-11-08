@@ -28,13 +28,14 @@ class Board
          * resulting board state (was a piece killed?). Lastly return the
          * return type (valid, invalid, etc.).
          *
-         * @param email The email of the player attempting to move a piece.
+         * @param email_address The email address of the player attempting to
+         * move a piece.
          * @param x1 Origin x-coordinate.
          * @param y1 Origin y-coordinate.
          * @param x2 Destination x-coordinate.
          * @param y2 Destination y-coordinate.
          */
-        void move(string email, int x1, int y1, int x2, int y2);
+        void move(string email_address, int x1, int y1, int x2, int y2);
 
     private:
         // Piece property enums
@@ -47,6 +48,7 @@ class Board
             PieceType type_;
             PieceColor color_;
         };
-        
+
         Piece* board[8][8];
 };
+

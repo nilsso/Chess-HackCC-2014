@@ -83,37 +83,37 @@ bool PrisonChess::loadMedia()
 	bool success = true;
 
 	//Load press texture
-	if (!gBlackBishop.loadFromFile("rsc/black_bishop.png", gRenderer))
+	if (!gBlackBishop.loadFromFile("repo/assets/black_bishop.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gBlackKing.loadFromFile("rsc/black_king.png", gRenderer))
+	if (!gBlackKing.loadFromFile("repo/assets/black_king.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gBlackKnight.loadFromFile("rsc/black_knight.png", gRenderer))
+	if (!gBlackKnight.loadFromFile("repo/assets/black_knight.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gBlackPawn.loadFromFile("rsc/black_pawn.png", gRenderer))
+	if (!gBlackPawn.loadFromFile("repo/assets/black_pawn.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gBlackQueen.loadFromFile("rsc/black_queen.png", gRenderer))
+	if (!gBlackQueen.loadFromFile("repo/assets/black_queen.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gBlackRook.loadFromFile("rsc/black_rook.png", gRenderer))
+	if (!gBlackRook.loadFromFile("repo/assets/black_rook.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
@@ -121,44 +121,44 @@ bool PrisonChess::loadMedia()
 
 
 
-	if (!gWhiteBishop.loadFromFile("rsc/white_bishop.png", gRenderer))
+	if (!gWhiteBishop.loadFromFile("repo/assets/white_bishop.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gWhiteKing.loadFromFile("rsc/white_king.png", gRenderer))
+	if (!gWhiteKing.loadFromFile("repo/assets/white_king.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gWhiteKnight.loadFromFile("rsc/white_knight.png", gRenderer))
+	if (!gWhiteKnight.loadFromFile("repo/assets/white_knight.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gWhitePawn.loadFromFile("rsc/white_pawn.png", gRenderer))
+	if (!gWhitePawn.loadFromFile("repo/assets/white_pawn.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gWhiteQueen.loadFromFile("rsc/white_queen.png", gRenderer))
+	if (!gWhiteQueen.loadFromFile("repo/assets/white_queen.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gWhiteRook.loadFromFile("rsc/white_rook.png", gRenderer))
+	if (!gWhiteRook.loadFromFile("repo/assets/white_rook.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
 	//Open the font
-	gFont = TTF_OpenFont("SlimJoe.ttf", 18);
+	gFont = TTF_OpenFont("repo/assets/SlimJoe.ttf", 18);
 	if (gFont == NULL)
 	{
 		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());

@@ -1,18 +1,15 @@
 #pragma once
 
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_thread.h>
-#include <SDL_ttf.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_thread.h>
+#include <SDL2/SDL_ttf.h>
 
-#include <stdio.h>
+#include <cstdio>
 #include <string>
 #include <vector>
-#include "time.h"
-
-
+#include <ctime>
 #include <iostream>
-
 
 class PrisonChess
 {
@@ -161,8 +158,6 @@ public:
 		int xPos;
 		int yPos;
 	};
-
-	
 
 	ChessPiece bRook1;
 

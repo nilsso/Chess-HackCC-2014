@@ -1,6 +1,5 @@
 #include "PrisonChess.h"
 
-
 PrisonChess::~PrisonChess()
 {
 	//endwin();
@@ -45,7 +44,7 @@ bool PrisonChess::init()
 		{
 			//Create vsynced renderer for window
 			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-			if ((gRenderer == NULL))
+			if (gRenderer == NULL)
 			{
 				printf("Renderer could not be created! SDL Error: %s\n", SDL_GetError());
 				success = false;
@@ -180,7 +179,7 @@ void PrisonChess::close()
 
 	//Free loaded images
 
-	//Destroy window	
+	//Destroy window
 	SDL_DestroyRenderer(gRenderer);
 	SDL_DestroyWindow(gWindow);
 	gWindow = NULL;
@@ -247,9 +246,7 @@ void PrisonChess::handleEvent(SDL_Event& e)
 			saveScreenshotBMP("test.png", gWindow, gRenderer);
 			break;
 		}
-		
 	}
-
 }
 
 
@@ -507,7 +504,7 @@ void PrisonChess::parseInput(bool turn)
 	{
 		printf("\n BLACK, please enter your move: \n");
 	}
-	
+
 	std::getline(std::cin, moveStr);
 
 	char test = ' ';
@@ -589,7 +586,7 @@ void PrisonChess::parseInput(bool turn)
 			piece = QUEEN;
 
 		break;
-		
+
 		case 'T':
 			playGame = false;
 			break;
@@ -691,13 +688,13 @@ void PrisonChess::parseInput(bool turn)
 	{
 		wPieces[piece]->xPos = pieceX;
 		wPieces[piece]->yPos = pieceY;
-		
+
 	}
 	else
 	{
 		bPieces[piece]->xPos = pieceX;
 		bPieces[piece]->yPos = pieceY;
-		
+
 	}
 
 
@@ -795,7 +792,7 @@ void PrisonChess::mainLoop()
 	printf("PRESS 0 TO START GAME\n");
 	printf("ENTER T TO TERMINATE GAME\n");
 	printf("PRESS S TO SAVE SCREENSHOT\n");
-	
+
 	for (int i = 0; i < 8; i++)
 	{
 		bPieces.push_back(new ChessPiece);

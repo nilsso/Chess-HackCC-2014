@@ -917,22 +917,7 @@ void PrisonChess::mainLoop()
 		//Update screen
 		SDL_RenderPresent(gRenderer);
 
-		if (playGame == true)
-		{
-
-
-			if (whiteTurn)
-			{
-				parseInput(whiteTurn);
-				whiteTurn = false;
-			}
-			else
-			{
-				parseInput(whiteTurn);
-				whiteTurn = true;
-			}
-
-		}
+	
 	}
 
 

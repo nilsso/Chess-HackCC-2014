@@ -5,6 +5,9 @@
 #include <SDL_image.h>
 #include <SDL_thread.h>
 #include <SDL_ttf.h>
+
+
+
 #else
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -16,13 +19,17 @@
 
 
 
-
 #include <cstdio>
 #include <string>
 #include <vector>
 #include <ctime>
 #include <iostream>
 
+#include "easendmailobj.tlh"
+#include "eagetmailobj.tlh"
+
+
+using namespace EASendMailObjLib;
 class PrisonChess
 {
 public:
@@ -41,6 +48,15 @@ public:
 	const int BISHOP_2 = 5;
 	const int KNIGHT_2 = 6;
 	const int ROOK_2 = 7;
+	const int PAWN_1 = 8;
+	const int PAWN_2 = 9;
+	const int PAWN_3 = 10;
+	const int PAWN_4 = 11;
+	const int PAWN_5 = 12;
+	const int PAWN_6 = 13;
+	const int PAWN_7 = 14;
+	const int PAWN_8 = 15;
+
 
 	const int A = CHESS_SQUARE_WIDTH * 0 + CHESS_SQUARE_WIDTH / 5;
 	const int B = CHESS_SQUARE_WIDTH * 1 + CHESS_SQUARE_WIDTH / 5;
@@ -51,6 +67,17 @@ public:
 	const int G = CHESS_SQUARE_WIDTH * 6 + CHESS_SQUARE_WIDTH / 5;
 	const int H = CHESS_SQUARE_WIDTH * 7 + CHESS_SQUARE_WIDTH / 5;
 
+	void sendMail(std::string mailContents);
+	void retreiveMail();
+
+	int findWhitePieceAtPosition(int xPos, int yPos);
+	int findBlackPieceAtPostion(int xPos, int yPos);
+
+	bool checkMoveLogic(int piece, int newXPos, int newYPos, bool colored);
+
+	void getStringChoice(std::string str, int &currentX, int &currentY, int& moveX, int &moveY);
+
+	std::string getUserInput();
 
 	std::string assetPath;
 
@@ -182,8 +209,8 @@ public:
 
 	ChessPiece bRook1;
 
-	std::vector<ChessPiece*>wPieces;
-	std::vector<ChessPiece*>bPieces;
+	std::vector<ChessPiece>wPieces;
+	std::vector<ChessPiece>bPieces;
 
 	LTexture topGridNumberTextTexture;
 	LTexture grid1Text;
@@ -198,12 +225,17 @@ public:
 
 	void setupGridNumbers();
 
-	void parseInput(bool turn);
+	void parseInput();
 	bool whiteTurn = true;
 	bool playGame = false;
 
 	bool saveScreenshotBMP(std::string filepath, SDL_Window* SDLWindow, SDL_Renderer* SDLRenderer);
 
 	bool checkIfValidMove(ChessPiece* p, int newX, int newY);
+
+	bool checkWillCollider(ChessPiece* p, int newX, int newY);
+
+	void movePiece(ChessPiece* p, int newX, int newY);
+
 };
 

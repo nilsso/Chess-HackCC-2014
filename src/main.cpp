@@ -15,11 +15,17 @@
 
 #include "PrisonChess.h"
 
+
+
+
 int main(int argc, char* args[])
 {
 	PrisonChess game = PrisonChess::getInstance();
 	game.start();
 	game.mainLoop();
 
+	//sendMail();
+
+	getchar();
 	return 0;
 }

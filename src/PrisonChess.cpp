@@ -1,5 +1,7 @@
 #include "PrisonChess.h"
 
+
+
 PrisonChess::~PrisonChess()
 {
 	//endwin();
@@ -12,6 +14,76 @@ PrisonChess& PrisonChess::getInstance()
 }
 
 
+void PrisonChess::sendMail(std::string mailContents)
+{
+		::CoInitialize(NULL);
+
+		EASendMailObjLib::IMailPtr oSmtp = NULL;
+		oSmtp.CreateInstance("EASendMailObj.Mail");
+		oSmtp->LicenseCode = ("TryIt");
+
+		// Set your sender email address
+		oSmtp->FromAddr = ("PrisonChessHackCC@yahoo.com");
+
+		// Add recipient email address
+		oSmtp->AddRecipientEx(("blizzard1445@gmail.com"), 0);
+
+		// Set email subject
+		oSmtp->Subject = ("PrisonChess: Your opponent has made his move!");
+
+		// Set email body
+		oSmtp->BodyText = ((char*)mailContents.c_str());
+
+		//Add embedded image and return the unique identifier of the attachment
+		_bstr_t cid = oSmtp->AddInline("test.png");
+		if (cid.length() == 0)
+		{
+			printf("failed add embedded image with error: %s"),
+				(const TCHAR*)oSmtp->GetLastErrDescription();
+		}
+
+		//Set HTML body format
+		oSmtp->BodyFormat = 1;
+
+		//use the cid as link in the body text
+		oSmtp->BodyText = _bstr_t("<html><body>Hello, this is a  embedded <img src=\"cid:") + cid
+			+ _bstr_t("\" > picture.</body><html>");
+
+		// Your SMTP server address
+		oSmtp->ServerAddr = ("localhost");
+
+		// User and password for ESMTP authentication, if your server doesn't 
+		// require User authentication, please remove the following codes.
+		oSmtp->UserName = ("573a70c398b6463fd21d0911ef82b91b");
+		oSmtp->Password = ("41f53f546115e7c7dfdafd1be2c0e86e");
+
+
+		// If your smtp server requires SSL connection, please add this line
+		//oSmtp->SSL_init();
+
+		printf(("Start to send email ...\r\n"));
+
+		if (oSmtp->SendMail() == 0)
+		{
+			printf(("email was sent successfully!\r\n"));
+		}
+		else
+		{
+			printf(("failed to send email with the following error: %s\r\n"),
+				(const TCHAR*)oSmtp->GetLastErrDescription());
+		}
+
+		if (oSmtp != NULL)
+			oSmtp.Release();
+
+}
+
+using namespace EAGetMailObjLib;
+void PrisonChess::retreiveMail()
+{
+
+
+}
 
 bool PrisonChess::init()
 {
@@ -249,6 +321,9 @@ void PrisonChess::handleEvent(SDL_Event& e)
 
 		case SDLK_s:
 			saveScreenshotBMP("test.png", gWindow, gRenderer);
+			break;
+		case SDLK_q:
+			retreiveMail();
 			break;
 		}
 	}
@@ -497,215 +572,425 @@ void PrisonChess::renderChessBoard()
 	}
 }
 
-//void PrisonChess::parseInput(bool turn)
-//{
-//	std::string moveStr;
-//
-//	if (turn == true)
-//	{
-//		printf("\n WHITE, please enter your move: \n");
-//	}
-//	else
-//	{
-//		printf("\n BLACK, please enter your move: \n");
-//	}
-//
-//	std::getline(std::cin, moveStr);
-//
-//	char test = ' ';
-//	char test2 = ' ';
-//	char test3 = ' ';
-//
-//	if (moveStr.length() > 0)
-//	{
-//		test = moveStr.at(0);
-//	}
-//	else
-//	{
-//		printf("\ninvalid input, try again\n");
-//		parseInput(whiteTurn);
-//	}
-//
-//	if (moveStr.length() > 1)
-//	{
-//		test2 = moveStr.at(moveStr.length() - 1);
-//	}
-//
-//	if (moveStr.length() > 2)
-//	{
-//		test3 = moveStr.at(moveStr.length() - 2);
-//	}
-//
-//	int piece = 0;
-//	int pieceX = 0;
-//	int pieceY = 0;
-//
-//	switch (test)
-//	{
-//		case 'R':
-//			test = moveStr.at(1);
-//
-//			if (test == '1')
-//			{
-//				piece = ROOK_1;
-//			}
-//			else
-//			{
-//				piece = ROOK_2;
-//			}
-//		break;
-//
-//		case 'K':
-//			test = moveStr.at(1);
-//
-//			if (test == '1')
-//			{
-//				piece = KNIGHT_1;
-//			}
-//			else if (test == '2')
-//			{
-//				piece = KNIGHT_2;
-//			}
-//			else
-//			{
-//				piece = KING;
-//			}
-//
-//		break;
-//
-//		case 'B':
-//			test = moveStr.at(1);
-//
-//			if (test == '1')
-//			{
-//				piece = BISHOP_1;
-//			}
-//			else
-//			{
-//				piece = BISHOP_2;
-//			}
-//
-//		break;
-//
-//		case 'Q':
-//			piece = QUEEN;
-//
-//		break;
-//
-//		case 'T':
-//			playGame = false;
-//			break;
-//
-//		default:
-//			printf("\ninvalid input, try again\n");
-//			parseInput(whiteTurn);
-//			break;
-//	}
-//
-//	if (test == 'T')
-//	{
-//		return;
-//	}
-//
-//	switch (test2)
-//	{
-//	case '1':
-//		pieceY = A;
-//		break;
-//
-//	case '2':
-//		pieceY = B;
-//		break;
-//
-//	case '3':
-//		pieceY = C;
-//		break;
-//
-//	case '4':
-//		pieceY = D;
-//		break;
-//
-//	case '5':
-//		pieceY = E;
-//		break;
-//
-//	case '6':
-//		pieceY = F;
-//		break;
-//
-//	case '7':
-//		pieceY = G;
-//		break;
-//
-//	case '8':
-//		pieceY = H;
-//		break;
-//
-//	default:
-//		printf("\ninvalid input, try again\n");
-//		parseInput(whiteTurn);
-//		break;
-//
-//	}
-//
-//	switch (test3)
-//	{
-//	case 'A':
-//		pieceX = A;
-//		break;
-//
-//	case 'B':
-//		pieceX = B;
-//		break;
-//
-//	case 'C':
-//		pieceX = C;
-//		break;
-//
-//	case 'D':
-//		pieceX = D;
-//		break;
-//
-//	case 'E':
-//		pieceX = E;
-//		break;
-//
-//	case 'F':
-//		pieceX = F;
-//		break;
-//
-//	case 'G':
-//		pieceX = G;
-//		break;
-//
-//	case 'H':
-//		pieceX = H;
-//		break;
-//
-//	default:
-//		printf("\ninvalid input, try again\n");
-//		parseInput(whiteTurn);
-//		break;
-//
-//	}
-//	if (turn)
-//	{
-//			wPieces[piece]->xPos = pieceX;
-//			wPieces[piece]->yPos = pieceY;
-//
-//	}
-//	else
-//	{
-//		bPieces[piece]->xPos = pieceX;
-//		bPieces[piece]->yPos = pieceY;
-//
-//
-//	}
-//
-//
-//
-//
-//}
+void PrisonChess::getStringChoice(std::string str, int &currentX, int &currentY, int& moveX, int &moveY)
+{
+	char test;
+	
+	test = str.at(0);
+	switch (test)
+	{
+	case 'A':
+		currentX = A;
+		break;
+
+	case 'B':
+		currentX = B;
+		break;
+
+	case 'C':
+		currentX = C;
+		break;
+
+	case 'D':
+		currentX = D;
+		break;
+
+	case 'E':
+		currentX = E;
+		break;
+
+	case 'F':
+		currentX = F;
+		break;
+
+	case 'G':
+		currentX = G;
+		break;
+
+	case 'H':
+		currentX = H;
+		break;
+
+	default:
+		printf("\ninvalid input, try again\n");
+		parseInput();
+		break;
+	}
+
+	test = str.at(1);
+	switch (test)
+	{
+	case '1':
+		currentY = A;
+		break;
+
+	case '2':
+		currentY = B;
+		break;
+
+	case '3':
+		currentY = C;
+		break;
+
+	case '4':
+		currentY = D;
+		break;
+
+	case '5':
+		currentY = E;
+		break;
+
+	case '6':
+		currentY = F;
+		break;
+
+	case '7':
+		currentY = G;
+		break;
+
+	case '8':
+		currentY = H;
+		break;
+
+	default:
+		printf("\ninvalid input, try again\n");
+		parseInput();
+		break;
+	}
+
+	test = str.at(str.length()-2);
+	switch (test)
+	{
+	case 'A':
+		moveX = A;
+		break;
+
+	case 'B':
+		moveX = B;
+		break;
+
+	case 'C':
+		moveX = C;
+		break;
+
+	case 'D':
+		moveX = D;
+		break;
+
+	case 'E':
+		moveX = E;
+		break;
+
+	case 'F':
+		moveX = F;
+		break;
+
+	case 'G':
+		moveX = G;
+		break;
+
+	case 'H':
+		moveX = H;
+		break;
+
+	default:
+		printf("\ninvalid input, try again\n");
+		parseInput();
+		break;
+	}
+
+	test = str.at(str.length()-1);
+	switch (test)
+	{
+	case '1':
+		moveY = A;
+		break;
+
+	case '2':
+		moveY = B;
+		break;
+
+	case '3':
+		moveY = C;
+		break;
+
+	case '4':
+		moveY = D;
+		break;
+
+	case '5':
+		moveY = E;
+		break;
+
+	case '6':
+		moveY = F;
+		break;
+
+	case '7':
+		moveY = G;
+		break;
+
+	case '8':
+		moveY = H;
+		break;
+
+	default:
+		printf("\ninvalid input, try again\n");
+		parseInput();
+		break;
+	}
+	
+
+
+	
+}
+
+int PrisonChess::findWhitePieceAtPosition(int xPos, int yPos)
+{
+	
+
+
+	return -1;
+}
+
+int PrisonChess::findBlackPieceAtPostion(int xPos, int yPos)
+{
+	for (int i = 0; i < bPieces.size(); i++)
+	{
+		if ((bPieces[i].xPos == xPos) && (bPieces[i].yPos == yPos))
+		{
+			return i;
+		}
+	}
+
+
+	return -1;
+}
+
+std::string PrisonChess::getUserInput()
+{
+	std::string moveStr;
+
+	std::getline(std::cin, moveStr);
+
+	return moveStr;
+	
+}
+
+bool PrisonChess::checkMoveLogic(int piece, int newXPos, int newYPos, bool colored)
+{
+	printf("\n\n%i", piece);
+
+	if (colored)
+	{
+		//PAWN LOGIC
+		if (piece >= 8)
+		{
+			// Deltas
+			int dx = abs(newXPos - bPieces[piece].xPos);
+			int dy = abs(newYPos - bPieces[piece].yPos);
+
+			// If move request delta-y is 2
+			if ((dy == 200) && (dx == 0)) {
+				// Return if pawn is on initial space
+				
+				return (bPieces[piece].yPos == 120);
+			}
+			// If move request delta-y is 1 and delta-x is 0 or 1
+			return (dy == 100 && dx < 200);
+		}
+
+		if (piece == ROOK_1 || piece == ROOK_2)
+		{
+			// If rook is moving in only one axis
+			return (!((newXPos - bPieces[piece].xPos) == 0) != !((newYPos - bPieces[piece].yPos) == 0));
+		}
+		if (piece == KNIGHT_1 || piece == KNIGHT_2)
+		{
+			int dx = abs(newXPos - bPieces[piece].xPos);
+			int dy = abs(newYPos - bPieces[piece].yPos);
+			return ((dx == 200 && dy == 100) || (dx == 100 && dy == 200));
+		}
+
+		if (piece == BISHOP_1 || piece == BISHOP_2)
+		{
+			return ((newXPos - bPieces[piece].xPos) == (newYPos - bPieces[piece].yPos));
+		}
+
+		if (piece == QUEEN)
+		{
+			return (
+				!((newXPos - bPieces[piece].xPos) == 0) != !((newYPos - bPieces[piece].yPos) == 0) ||
+				(newXPos - bPieces[piece].xPos) == (newYPos - bPieces[piece].yPos));
+		}
+
+		if (piece == KING)
+		{
+			int dx = abs(newXPos - bPieces[piece].xPos);
+			int dy = abs(newYPos - bPieces[piece].yPos);
+
+			return ((dx < 200) && (dy < 200));
+		}
+
+	}
+	else
+	{
+		//PAWN LOGIC
+		if (piece >= 8)
+		{
+			// Deltas
+			int dx = abs(newXPos - wPieces[piece].xPos);
+			int dy = abs(newYPos - wPieces[piece].yPos);
+
+			// If move request delta-y is 2
+			if ((dy == 200) && (dx == 0)) {
+				 //Return if pawn is on initial space
+				return (wPieces[piece].yPos == 120);
+			}
+			// If move request delta-y is 1 and delta-x is 0 or 1
+			return (dy == 100 && dx < 200);
+		}
+
+		if (piece == ROOK_1 || piece == ROOK_2)
+		{
+			// If rook is moving in only one axis
+			return (!((newXPos - wPieces[piece].xPos) == 0) != !((newYPos - wPieces[piece].yPos) == 0));
+		}
+		if (piece == KNIGHT_1 || piece == KNIGHT_2)
+		{
+			int dx = abs(newXPos - wPieces[piece].xPos);
+			int dy = abs(newYPos - wPieces[piece].yPos);
+			return ((dx == 200 && dy == 100) || (dx == 100 && dy == 200));
+		}
+
+		if (piece == BISHOP_1 || piece == BISHOP_2)
+		{
+			return ((newXPos - wPieces[piece].xPos) == (newYPos - wPieces[piece].yPos));
+		}
+
+		if (piece == QUEEN)
+		{
+			return (
+				!((newXPos - wPieces[piece].xPos) == 0) != !((newYPos - wPieces[piece].yPos) == 0) ||
+				(newXPos - wPieces[piece].xPos) == (newYPos - wPieces[piece].yPos));
+		}
+
+		if (piece == KING)
+		{
+			int dx = abs(newXPos - wPieces[piece].xPos);
+			int dy = abs(newYPos - wPieces[piece].yPos);
+
+			return ((dx < 200) && (dy < 200));
+		}
+	}
+}
+
+void PrisonChess::parseInput()
+{
+	std::string moveStr;
+	int piece = -1;
+	int pieceX = 0;
+	int pieceY = 0;
+
+
+	int lookX = 0;
+	int lookY = 0;
+	char test = ' ';
+
+
+
+	if (whiteTurn == true)
+	{
+		printf("\n WHITE, enter coordinate of piece you would like to move like 'B1 to B3': \n");
+		
+	}
+	else
+	{
+		printf("\n BLACK, enter coordinate of piece you would like to move like 'B1 to B3':: \n");
+	}
+
+	moveStr = getUserInput();
+
+	getStringChoice(moveStr, pieceX, pieceY, lookX, lookY);
+
+	printf("\n\n %i PPPPP  %i  ", pieceX, pieceY);
+	printf("\n\n %i PAWN1 %i ", wPieces[8].xPos, wPieces[8].yPos);
+
+	printf("\n\n %c   %c  ", moveStr.at(1), moveStr.at(1));
+
+
+
+	if (whiteTurn)
+	{
+		//find piece in user specified place to look
+
+
+		for (int i = 0; i < wPieces.size(); i++)
+		{
+			if ((wPieces[i].xPos == pieceX) && (wPieces[i].yPos == pieceY))
+			{
+				piece = i;
+			}
+		}
+		if (piece == -1)
+		{
+			printf("\n NO COORDINATE FOUND AT POSITION");
+			parseInput();
+		}
+		else
+		{
+			if (checkMoveLogic(piece, lookX, lookY, false))
+			{
+				wPieces[piece].xPos = lookX;
+				wPieces[piece].yPos = lookY;
+				saveScreenshotBMP("test.png", gWindow, gRenderer);
+			}
+			else
+			{
+				printf("\n YOU CANT MOVE LIKE THAT");
+				parseInput();
+
+			}
+		}
+
+	
+
+	}
+	else
+	{
+		for (int i = 0; i < bPieces.size(); i++)
+		{
+			if ((bPieces[i].xPos == pieceX) && (bPieces[i].yPos == pieceY))
+			{
+				piece = i;
+			}
+
+		}
+		if (piece == -1)
+		{
+			printf("\n NO PIECE FOUND AT COORDINATE");
+			parseInput();
+		}
+		else
+		{
+			if (checkMoveLogic(piece, lookX, lookY, true))
+			{
+				bPieces[piece].xPos = lookX;
+				bPieces[piece].yPos = lookY;
+				saveScreenshotBMP("test.png", gWindow, gRenderer);
+			}
+			else
+			{
+				printf("\n YOU CANT MOVE THERE!");
+				parseInput();
+			}
+
+		}
+
+
+	}
+}
+
 
 void PrisonChess::setupGridNumbers()
 {
@@ -760,36 +1045,47 @@ void PrisonChess::setupGridNumbers()
 
 void PrisonChess::renderChessPieces()
 {
-	gBlackRook.render(gRenderer,    bPieces[ROOK_1]->xPos,    bPieces[ROOK_1]->yPos);
-	gBlackKnight.render(gRenderer,  bPieces[KNIGHT_1]->xPos,  bPieces[KNIGHT_1]->yPos);
-	gBlackBishop.render(gRenderer,  bPieces[BISHOP_1]->xPos,  bPieces[BISHOP_1]->yPos);
-	gBlackQueen.render(gRenderer,   bPieces[QUEEN]->xPos,     bPieces[QUEEN]->yPos);
+	gBlackRook.render(gRenderer,    bPieces[ROOK_1].xPos,    bPieces[ROOK_1].yPos);
+	gBlackKnight.render(gRenderer,  bPieces[KNIGHT_1].xPos,  bPieces[KNIGHT_1].yPos);
+	gBlackBishop.render(gRenderer,  bPieces[BISHOP_1].xPos,  bPieces[BISHOP_1].yPos);
+	gBlackQueen.render(gRenderer,   bPieces[QUEEN].xPos,     bPieces[QUEEN].yPos);
 
-	gBlackKing.render(gRenderer,	bPieces[KING]->xPos,      bPieces[KING]->yPos);
-	gBlackBishop.render(gRenderer,  bPieces[BISHOP_2]->xPos,  bPieces[BISHOP_2]->yPos);
-	gBlackKnight.render(gRenderer,  bPieces[KNIGHT_2]->xPos,  bPieces[KNIGHT_2]->yPos);
-	gBlackRook.render(gRenderer,    bPieces[ROOK_2]->xPos,    bPieces[ROOK_2]->yPos);
+	gBlackKing.render(gRenderer,	bPieces[KING].xPos,      bPieces[KING].yPos);
+	gBlackBishop.render(gRenderer,  bPieces[BISHOP_2].xPos,  bPieces[BISHOP_2].yPos);
+	gBlackKnight.render(gRenderer,  bPieces[KNIGHT_2].xPos,  bPieces[KNIGHT_2].yPos);
+	gBlackRook.render(gRenderer,    bPieces[ROOK_2].xPos,    bPieces[ROOK_2].yPos);
 
-	gWhiteRook.render(gRenderer,    wPieces[ROOK_1]->xPos,    wPieces[ROOK_1]->yPos);
-	gWhiteKnight.render(gRenderer,  wPieces[KNIGHT_1]->xPos,  wPieces[KNIGHT_1]->yPos);
-	gWhiteBishop.render(gRenderer,  wPieces[BISHOP_1]->xPos,  wPieces[BISHOP_1]->yPos);
-	gWhiteQueen.render(gRenderer,   wPieces[QUEEN]->xPos,     wPieces[QUEEN]->yPos);
+	gWhiteRook.render(gRenderer,    wPieces[ROOK_1].xPos,    wPieces[ROOK_1].yPos);
+	gWhiteKnight.render(gRenderer,  wPieces[KNIGHT_1].xPos,  wPieces[KNIGHT_1].yPos);
+	gWhiteBishop.render(gRenderer,  wPieces[BISHOP_1].xPos,  wPieces[BISHOP_1].yPos);
+	gWhiteQueen.render(gRenderer,   wPieces[QUEEN].xPos,     wPieces[QUEEN].yPos);
 
-	gWhiteKing.render(gRenderer,    wPieces[KING]->xPos,      wPieces[KING]->yPos);
-	gWhiteBishop.render(gRenderer,  wPieces[BISHOP_2]->xPos,  wPieces[BISHOP_2]->yPos);
-	gWhiteKnight.render(gRenderer,  wPieces[KNIGHT_2]->xPos,  wPieces[KNIGHT_2]->yPos);
-	gWhiteRook.render(gRenderer,    wPieces[ROOK_2]->xPos,    wPieces[ROOK_2]->yPos);
+	gWhiteKing.render(gRenderer,    wPieces[KING].xPos,      wPieces[KING].yPos);
+	gWhiteBishop.render(gRenderer,  wPieces[BISHOP_2].xPos,  wPieces[BISHOP_2].yPos);
+	gWhiteKnight.render(gRenderer,  wPieces[KNIGHT_2].xPos,  wPieces[KNIGHT_2].yPos);
+	gWhiteRook.render(gRenderer,    wPieces[ROOK_2].xPos,    wPieces[ROOK_2].yPos);
 
 
-	for (int i = 0; i < 8; i++)
-	{
-		gBlackPawn.render(gRenderer, CHESS_SQUARE_WIDTH*i + CHESS_SQUARE_HEIGHT / 5, CHESS_SQUARE_HEIGHT + CHESS_SQUARE_HEIGHT / 5);
-	}
+	//pawns
+	gWhitePawn.render(gRenderer, wPieces[PAWN_1].xPos, wPieces[PAWN_1].yPos);
+	gWhitePawn.render(gRenderer, wPieces[PAWN_2].xPos, wPieces[PAWN_2].yPos);
+	gWhitePawn.render(gRenderer, wPieces[PAWN_3].xPos, wPieces[PAWN_3].yPos);
+	gWhitePawn.render(gRenderer, wPieces[PAWN_4].xPos, wPieces[PAWN_4].yPos);
+	gWhitePawn.render(gRenderer, wPieces[PAWN_5].xPos, wPieces[PAWN_5].yPos);
+	gWhitePawn.render(gRenderer, wPieces[PAWN_6].xPos, wPieces[PAWN_6].yPos);
+	gWhitePawn.render(gRenderer, wPieces[PAWN_7].xPos, wPieces[PAWN_7].yPos);
+	gWhitePawn.render(gRenderer, wPieces[PAWN_8].xPos, wPieces[PAWN_8].yPos);
 
-	for (int i = 0; i < 8; i++)
-	{
-		gWhitePawn.render(gRenderer, CHESS_SQUARE_WIDTH * i + CHESS_SQUARE_WIDTH / 5, CHESS_SQUARE_HEIGHT * 6 + CHESS_SQUARE_HEIGHT / 5);
-	}
+	gBlackPawn.render(gRenderer, bPieces[PAWN_1].xPos, bPieces[PAWN_1].yPos);
+	gBlackPawn.render(gRenderer, bPieces[PAWN_2].xPos, bPieces[PAWN_2].yPos);
+	gBlackPawn.render(gRenderer, bPieces[PAWN_3].xPos, bPieces[PAWN_3].yPos);
+	gBlackPawn.render(gRenderer, bPieces[PAWN_4].xPos, bPieces[PAWN_4].yPos);
+	gBlackPawn.render(gRenderer, bPieces[PAWN_5].xPos, bPieces[PAWN_5].yPos);
+	gBlackPawn.render(gRenderer, bPieces[PAWN_6].xPos, bPieces[PAWN_6].yPos);
+	gBlackPawn.render(gRenderer, bPieces[PAWN_7].xPos, bPieces[PAWN_7].yPos);
+	gBlackPawn.render(gRenderer, bPieces[PAWN_8].xPos, bPieces[PAWN_8].yPos);
+
+
 }
 
 //bool PrisonChess::checkIfValidMove(ChessPiece* p, int newX, int newY)
@@ -815,7 +1111,7 @@ void PrisonChess::renderChessPieces()
 //			}
 //			if (newX == (p->xPos + CHESS_SQUARE_HEIGHT * 2) && (newY == (p->yPos - CHESS_SQUARE_HEIGHT * 1)))
 //			{
-//				return true;
+//				return true;turn
 //			}
 //			if (newX == (p->xPos + CHESS_SQUARE_HEIGHT * 1) && (newY == (p->yPos + CHESS_SQUARE_HEIGHT * 2)))
 //			{
@@ -864,16 +1160,43 @@ void PrisonChess::renderChessPieces()
 
 void PrisonChess::mainLoop()
 {
-	for (int i = 0; i < 8; i++)
-	{
-		bPieces.push_back(new ChessPiece);
-		
-		bPieces[i]->xPos = CHESS_SQUARE_WIDTH/5 + (i*CHESS_SQUARE_WIDTH);
-		bPieces[i]->yPos = A;
+	retreiveMail();
 
-		wPieces.push_back(new ChessPiece);
-		wPieces[i]->xPos = CHESS_SQUARE_WIDTH/5 + (i * CHESS_SQUARE_WIDTH);
-		wPieces[i]->yPos = H;
+	int p = 0;
+
+	for (int i = 0; i < 16; i++)
+	{
+		if (i < 8)
+		{
+
+			ChessPiece k;
+			bPieces.push_back(k);
+		
+			bPieces[i].xPos = CHESS_SQUARE_WIDTH/5 + (i*CHESS_SQUARE_WIDTH);
+			bPieces[i].yPos = A;
+
+			ChessPiece j;
+			wPieces.push_back(j);
+			wPieces[i].xPos = CHESS_SQUARE_WIDTH/5 + (i * CHESS_SQUARE_WIDTH);
+			wPieces[i].yPos = H;
+
+		}
+
+		else if (i >= 8)
+		{
+			ChessPiece j;
+			wPieces.push_back(j);
+			wPieces[i].xPos = CHESS_SQUARE_WIDTH / 5 + (p*CHESS_SQUARE_WIDTH);
+			wPieces[i].yPos = G;
+
+			ChessPiece k;
+			bPieces.push_back(k);
+			bPieces[i].xPos = CHESS_SQUARE_WIDTH / 5 + (p*CHESS_SQUARE_WIDTH);
+			bPieces[i].yPos = B;
+
+			p++;
+		}
+		
 	}
 
 
@@ -917,6 +1240,27 @@ void PrisonChess::mainLoop()
 		//Update screen
 		SDL_RenderPresent(gRenderer);
 
+		if (playGame)
+		{
+			if (whiteTurn)
+			{
+				
+				parseInput();
+				sendMail("\n Your opponent just made a move!");
+				whiteTurn = false;
+				
+				
+			}
+			else
+			{
+
+				parseInput();
+				sendMail("\n Your opponent just made a move!");
+				whiteTurn = true;
+				
+			}
+			
+		}
 	
 	}
 

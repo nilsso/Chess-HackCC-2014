@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdlib>
+#include <iostream>
 #include <string>
 #include <list>
 
@@ -20,6 +22,9 @@ struct Piece
 
     // Constructor
     Piece(Board *board, PieceType type, PieceColor color, int x, int y);
+
+    // Destructor
+    ~Piece();
 
     // Static functions
     static bool canMove(Piece *piece, int x, int y);
@@ -87,19 +92,16 @@ class Board
          */
         bool canMove(int x1, int y1, int x2, int y2);
 
-        void printBoardArray();
+        void printBoard();
 
     private:
         const unsigned int MAX_X = 8;
         const unsigned int MAX_Y = 8;
 
         // Board matrix
-        Piece* board[8][8];
+        Piece *board[8][8];
 
         // Pieces array
-        Piece *pieces[32];
-
-        // List of live pieces
-        list<Piece *> live_pieces;
+        Piece *pieces[8 * 8];
 };
 

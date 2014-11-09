@@ -11,7 +11,7 @@ RM_R = -rm -rf
 SDIR = src
 ODIR = out
 
-FILES = main PrisonChess
+FILES = chess
 
 SRCS = $(SDIR)/$(FILES).cpp
 OBJS = $(FILES).o

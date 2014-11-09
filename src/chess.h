@@ -18,8 +18,8 @@ class Board;
 struct Piece
 {
     // Piece property enums
-    enum PieceType { PAWN = 1, ROOK, KNIGHT, BISHOP, QUEEN, KING };
-    enum PieceColor { WHITE = 1, BLACK };
+    enum class PieceType { PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING };
+    enum class PieceColor { WHITE, BLACK };
 
     // Constructor
     Piece(Board *board, PieceType type, PieceColor color, int x, int y);
@@ -124,10 +124,11 @@ class Board
          */
         void printBoard();
 
-    private:
-        const unsigned int MAX_X = 8;
-        const unsigned int MAX_Y = 8;
+        // Data members
+        static const unsigned int MAX_X = 8;
+        static const unsigned int MAX_Y = 8;
 
+    private:
         // Board matrix
         Piece *board[8][8];
 

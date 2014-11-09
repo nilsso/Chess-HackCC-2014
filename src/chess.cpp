@@ -1,8 +1,12 @@
 #include "chess.h"
 #include<iostream>
 
+typedef Piece::PieceType PType;
+typedef Piece::PieceColor PColor;
+
 Piece::Piece(Board *board, PieceType type, PieceColor color, int x, int y):
     board_(board),
+    type_(type),
     x_(x),
     y_(y),
     color_(color)
@@ -81,17 +85,21 @@ bool Piece::canMove(Piece *piece, int x, int y)
 
 Board::Board()
 {
-   Board::setup();
+    for (int y = 0; y < Board::MAX_Y; y++) {
+        for (int x = 0; x < Board::MAX_X; x++) {
+            board[y][x] = nullptr;
+        }
+    }
 }
 
 void Board::setup()
 {
     // Create new piece instances
     pieces[BLACK_ROOK1]   = new Piece(this, PType::ROOK, PColor::BLACK, 0, 0);
-    pieces[BLACK_ROOK1]   = new Piece(this, PType::ROOK, PColor::BLACK, 1, 0);
-    pieces[BLACK_KNIGHT2] = new Piece(this, PType::KNIGHT, PColor::BLACK, 2, 0);
+    pieces[BLACK_ROOK2]   = new Piece(this, PType::ROOK, PColor::BLACK, 1, 0);
+    pieces[BLACK_KNIGHT1] = new Piece(this, PType::KNIGHT, PColor::BLACK, 2, 0);
     pieces[BLACK_KNIGHT2] = new Piece(this, PType::KNIGHT, PColor::BLACK, 3, 0);
-    pieces[BLACK_BISHOP2] = new Piece(this, PType::BISHOP, PColor::BLACK, 4, 0);
+    pieces[BLACK_BISHOP1] = new Piece(this, PType::BISHOP, PColor::BLACK, 4, 0);
     pieces[BLACK_BISHOP2] = new Piece(this, PType::BISHOP, PColor::BLACK, 5, 0);
     pieces[BLACK_QUEEN]   = new Piece(this, PType::QUEEN, PColor::BLACK, 6, 0);
     pieces[BLACK_KING]    = new Piece(this, PType::KING, PColor::BLACK, 7, 0);
@@ -115,23 +123,23 @@ void Board::setup()
     pieces[WHITE_PAWN8]   = new Piece(this, PType::PAWN, PColor::WHITE, 7, 6);
 
     pieces[WHITE_ROOK1]   = new Piece(this, PType::ROOK, PColor::WHITE, 0, 7);
-    pieces[WHITE_ROOK1]   = new Piece(this, PType::ROOK, PColor::WHITE, 1, 7);
-    pieces[WHITE_KNIGHT2] = new Piece(this, PType::KNIGHT, PColor::WHITE, 2, 7);
+    pieces[WHITE_ROOK2]   = new Piece(this, PType::ROOK, PColor::WHITE, 1, 7);
+    pieces[WHITE_KNIGHT1] = new Piece(this, PType::KNIGHT, PColor::WHITE, 2, 7);
     pieces[WHITE_KNIGHT2] = new Piece(this, PType::KNIGHT, PColor::WHITE, 3, 7);
-    pieces[WHITE_BISHOP2] = new Piece(this, PType::BISHOP, PColor::WHITE, 4, 7);
+    pieces[WHITE_BISHOP1] = new Piece(this, PType::BISHOP, PColor::WHITE, 4, 7);
     pieces[WHITE_BISHOP2] = new Piece(this, PType::BISHOP, PColor::WHITE, 5, 7);
     pieces[WHITE_QUEEN]   = new Piece(this, PType::QUEEN, PColor::WHITE, 6, 7);
     pieces[WHITE_KING]    = new Piece(this, PType::KING, PColor::WHITE, 7, 7);
 
     // Populate board matrix
     board[0][0] = pieces[BLACK_ROOK1];
-    board[0][1] = pieces[BLACK_ROOK2];
-    board[0][2] = pieces[BLACK_KNIGHT1];
-    board[0][3] = pieces[BLACK_KNIGHT2];
-    board[0][4] = pieces[BLACK_BISHOP1];
+    board[0][1] = pieces[BLACK_KNIGHT1];
+    board[0][2] = pieces[BLACK_BISHOP1];
+    board[0][3] = pieces[BLACK_QUEEN];
+    board[0][4] = pieces[BLACK_KING];
     board[0][5] = pieces[BLACK_BISHOP2];
-    board[0][6] = pieces[BLACK_QUEEN];
-    board[0][7] = pieces[BLACK_KING];
+    board[0][6] = pieces[BLACK_KNIGHT2];
+    board[0][7] = pieces[BLACK_ROOK2];
 
     board[1][0] = pieces[BLACK_PAWN1];
     board[1][1] = pieces[BLACK_PAWN2];
@@ -152,13 +160,13 @@ void Board::setup()
     board[6][7] = pieces[WHITE_PAWN8];
 
     board[7][0] = pieces[WHITE_ROOK1];
-    board[7][1] = pieces[WHITE_ROOK2];
-    board[7][2] = pieces[WHITE_KNIGHT1];
-    board[7][3] = pieces[WHITE_KNIGHT2];
-    board[7][4] = pieces[WHITE_BISHOP1];
+    board[7][1] = pieces[WHITE_KNIGHT1];
+    board[7][2] = pieces[WHITE_BISHOP1];
+    board[7][3] = pieces[WHITE_QUEEN];
+    board[7][4] = pieces[WHITE_KING];
     board[7][5] = pieces[WHITE_BISHOP2];
-    board[7][6] = pieces[WHITE_QUEEN];
-    board[7][7] = pieces[WHITE_KING];
+    board[7][6] = pieces[WHITE_KNIGHT2];
+    board[7][7] = pieces[WHITE_ROOK2];
 }
 
 void Board::cleanup()
@@ -199,18 +207,27 @@ void Board::printBoard(){
       for (int x = 0; x < 8; x++) {
          if (board[y][x] != nullptr) {
              switch (board[y][x]->type_) {
-                 case (PType::PAWN):
-                     cout << (board[y][x]->color_ == PColor::BLACK ? 'K' : 'k');
-                 case (PType::ROOK):
+                 case (Piece::PieceType::PAWN):
+                     cout << ((board[y][x]->color_ == PColor::BLACK) ? 'P' : 'p');
+                     break;
+                 case (Piece::PieceType::ROOK):
                      cout << (board[y][x]->color_ == PColor::BLACK ? 'R' : 'r');
+                     break;
                  case (PType::KNIGHT):
                      cout << (board[y][x]->color_ == PColor::BLACK ? 'G' : 'g');
+                     break;
                  case (PType::BISHOP):
                      cout << (board[y][x]->color_ == PColor::BLACK ? 'B' : 'b');
+                     break;
                  case (PType::QUEEN):
                      cout << (board[y][x]->color_ == PColor::BLACK ? 'Q' : 'q');
+                     break;
                  case (PType::KING):
                      cout << (board[y][x]->color_ == PColor::BLACK ? 'K' : 'k');
+                     break;
+                 //default:
+                     //cout << 'x';
+                     //break;
              }
          }
       }
@@ -222,9 +239,11 @@ void Board::printBoard(){
 int main(){
    //string email = "test@test.com";
 
-   //Board b;
+   Board b;
 
-   //b.printBoardArray();
+   b.setup();
+
+   b.printBoard();
 
    //b.move(email,0,4,4,4);
 
@@ -236,7 +255,7 @@ int main(){
 
    //cin.ignore();
 
-   return 0;
+   return EXIT_SUCCESS;
 }
 
 

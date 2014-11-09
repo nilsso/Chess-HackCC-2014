@@ -8,6 +8,7 @@
 using namespace std;
 
 // Forward declaration
+class Piece;
 class Board;
 
 // -----------------------------------------------------------------------------
@@ -17,8 +18,8 @@ class Board;
 struct Piece
 {
     // Piece property enums
-    enum class PieceType { PAWN, ROOK, KNIGHT, BISHOP, QUEEN, KING };
-    enum class PieceColor { WHITE, BLACK };
+    enum PieceType { PAWN = 1, ROOK, KNIGHT, BISHOP, QUEEN, KING };
+    enum PieceColor { WHITE = 1, BLACK };
 
     // Constructor
     Piece(Board *board, PieceType type, PieceColor color, int x, int y);
@@ -39,6 +40,11 @@ struct Piece
 // -----------------------------------------------------------------------------
 // Board class
 // -----------------------------------------------------------------------------
+
+// Aliases
+typedef Piece::PieceType PType;
+typedef Piece::PieceColor PColor;
+
 class Board
 {
     public:
@@ -63,20 +69,20 @@ class Board
         // Board constructor
         Board();
 
-        // Setup function
-        /*
-         * Sets up the board with new pieces.
+        //! Setup function.
+        /*!
+         * Creates piece instances and places them for a new game.
          */
         void setup();
 
-        // Cleanup function
-        /*
-         * Cleans up the remaining pieces.
+        //! Cleanup function.
+        /*!
+         * Deletes all remaining piece instances.
          */
         void cleanup();
 
-        // Move function
-        /*
+        //! Move function.
+        /*!
          * Attempts to move a piece from position 1 to position 2. Checks to
          * see if the piece can move to the destination based on piece move
          * rulesets (bishop only moves diagonally, pawn forward except for
@@ -84,14 +90,38 @@ class Board
          * position, and lastly if the resulting move wouldn't result in self
          * check. Returns false if any of those conditions fail.
          *
-         * move a piece.
          * @param x1 Origin x-coordinate.
          * @param y1 Origin y-coordinate.
          * @param x2 Destination x-coordinate.
          * @param y2 Destination y-coordinate.
+         * @return If the piece at position 1 can move to position 2.
          */
         bool canMove(int x1, int y1, int x2, int y2);
 
+        //! Get piece type at board position.
+        /*!
+         * Gets the piece type at the coordinate location on the board.
+         *
+         * @param x x-coordinate on board.
+         * @param y y-coordinate on board.
+         * @return Piece type (0 if no piece)
+         */
+        PType GetTypeAtPosition(int x, int y);
+
+        //! Get piece color at board position.
+        /*!
+         * Gets the piece color at the coordinate location on the board.
+         *
+         * @param x x-coordinate on board.
+         * @param y y-coordinate on board.
+         * @return Piece type (0 if no piece)
+         */
+        PColor GetColorAtPosition(int x, int y);
+
+        //! Print board state.
+        /*!
+         * Prints the current board state to the console using characters.
+         */
         void printBoard();
 
     private:

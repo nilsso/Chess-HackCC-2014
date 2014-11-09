@@ -7,7 +7,10 @@ Piece::Piece(Board *board, PieceType type, PieceColor color, int x, int y):
     y_(y),
     color_(color)
 {
+}
 
+Piece::~Piece()
+{
 }
 
 bool Piece::canMove(Piece *piece, int x, int y)

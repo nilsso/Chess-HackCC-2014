@@ -15,6 +15,12 @@ PrisonChess& PrisonChess::getInstance()
 
 bool PrisonChess::init()
 {
+#ifdef _WIN32
+	assetPath = "repo/assets/";
+#else
+	assetPath = "assets/";
+#endif
+
 	//Initialization flag
 	bool success = true;
 
@@ -33,7 +39,7 @@ bool PrisonChess::init()
 		}
 
 		//Create window
-		gWindow = SDL_CreateWindow("21st Century Prison Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		gWindow = SDL_CreateWindow("21st Century Prison Chess", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
 		if (gWindow == NULL)
 		{
@@ -83,37 +89,37 @@ bool PrisonChess::loadMedia()
 	bool success = true;
 
 	//Load press texture
-	if (!gBlackBishop.loadFromFile("repo/assets/black_bishop.png", gRenderer))
+	if (!gBlackBishop.loadFromFile(assetPath + "black_bishop.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gBlackKing.loadFromFile("repo/assets/black_king.png", gRenderer))
+	if (!gBlackKing.loadFromFile(assetPath + "black_king.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gBlackKnight.loadFromFile("repo/assets/black_knight.png", gRenderer))
+	if (!gBlackKnight.loadFromFile(assetPath + "black_knight.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gBlackPawn.loadFromFile("repo/assets/black_pawn.png", gRenderer))
+	if (!gBlackPawn.loadFromFile(assetPath + "black_pawn.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gBlackQueen.loadFromFile("repo/assets/black_queen.png", gRenderer))
+	if (!gBlackQueen.loadFromFile(assetPath + "black_queen.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gBlackRook.loadFromFile("repo/assets/black_rook.png", gRenderer))
+	if (!gBlackRook.loadFromFile(assetPath + "black_rook.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
@@ -121,44 +127,44 @@ bool PrisonChess::loadMedia()
 
 
 
-	if (!gWhiteBishop.loadFromFile("repo/assets/white_bishop.png", gRenderer))
+	if (!gWhiteBishop.loadFromFile(assetPath + "white_bishop.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gWhiteKing.loadFromFile("repo/assets/white_king.png", gRenderer))
+	if (!gWhiteKing.loadFromFile(assetPath + "white_king.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gWhiteKnight.loadFromFile("repo/assets/white_knight.png", gRenderer))
+	if (!gWhiteKnight.loadFromFile(assetPath + "white_knight.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gWhitePawn.loadFromFile("repo/assets/white_pawn.png", gRenderer))
+	if (!gWhitePawn.loadFromFile(assetPath + "white_pawn.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gWhiteQueen.loadFromFile("repo/assets/white_queen.png", gRenderer))
+	if (!gWhiteQueen.loadFromFile(assetPath + "white_queen.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
-	if (!gWhiteRook.loadFromFile("repo/assets/white_rook.png", gRenderer))
+	if (!gWhiteRook.loadFromFile(assetPath + "white_rook.png", gRenderer))
 	{
 		printf("Failed to load texture!\n");
 		success = false;
 	}
 
 	//Open the font
-	gFont = TTF_OpenFont("repo/assets/SlimJoe.ttf", 18);
+	gFont = TTF_OpenFont((char*)(assetPath + "SlimJoe.ttf").c_str(), 18);
 	if (gFont == NULL)
 	{
 		printf("Failed to load lazy font! SDL_ttf Error: %s\n", TTF_GetError());
@@ -217,7 +223,6 @@ void PrisonChess::start()
 
 void PrisonChess::handleEvent(SDL_Event& e)
 {
-
 	//If a key was pressed
 	if (e.type == SDL_KEYDOWN && e.key.repeat == 0)
 	{
@@ -442,12 +447,12 @@ void PrisonChess::setUpChessBoard(int yPos)
 	bSquares.clear();
 
 	SDL_Rect k;
-	k.w = 100;
-	k.h = 100;
+	k.w = CHESS_SQUARE_WIDTH;
+	k.h = CHESS_SQUARE_WIDTH;
 	k.y = yPos;
 	for (int i = 0; i < 8; i++)
 	{
-		k.x = i * 100;
+		k.x = i * CHESS_SQUARE_WIDTH;
 
 		bSquares.push_back(k);
 	}
@@ -458,7 +463,7 @@ void PrisonChess::renderChessBoard()
 
 	for (int j = 0; j < 8; j++)
 	{
-		setUpChessBoard(j * 100);
+		setUpChessBoard(j * CHESS_SQUARE_WIDTH);
 
 		for (int i = 0; i < 8; i++)
 		{
@@ -683,17 +688,17 @@ void PrisonChess::parseInput(bool turn)
 		break;
 
 	}
-
 	if (turn)
 	{
-		wPieces[piece]->xPos = pieceX;
-		wPieces[piece]->yPos = pieceY;
+			wPieces[piece]->xPos = pieceX;
+			wPieces[piece]->yPos = pieceY;
 
 	}
 	else
 	{
 		bPieces[piece]->xPos = pieceX;
 		bPieces[piece]->yPos = pieceY;
+
 
 	}
 
@@ -778,12 +783,82 @@ void PrisonChess::renderChessPieces()
 
 	for (int i = 0; i < 8; i++)
 	{
-		gBlackPawn.render(gRenderer, 100*i + 20, 120);
+		gBlackPawn.render(gRenderer, CHESS_SQUARE_WIDTH*i + CHESS_SQUARE_HEIGHT / 5, CHESS_SQUARE_HEIGHT + CHESS_SQUARE_HEIGHT / 5);
 	}
 
 	for (int i = 0; i < 8; i++)
 	{
-		gWhitePawn.render(gRenderer, 100 * i + 20, 620);
+		gWhitePawn.render(gRenderer, CHESS_SQUARE_WIDTH * i + CHESS_SQUARE_WIDTH / 5, CHESS_SQUARE_HEIGHT * 6 + CHESS_SQUARE_HEIGHT / 5);
+	}
+}
+
+bool PrisonChess::checkIfValidMove(ChessPiece* p, int newX, int newY)
+{
+
+
+
+
+	printf("%i\n", p->pieceType);
+	
+
+	if (p->pieceType == KNIGHT_1 | p->pieceType == KNIGHT_2)
+	{
+		if ((newX == p->xPos + CHESS_SQUARE_HEIGHT))
+		{
+			if (newY == p->yPos - (CHESS_SQUARE_HEIGHT * 2))
+			{
+				return true;
+			}
+			if (newX == (p->xPos + CHESS_SQUARE_HEIGHT * 2) && (newY == (p->yPos + CHESS_SQUARE_HEIGHT * 1)))
+			{
+				return true;
+			}
+			if (newX == (p->xPos + CHESS_SQUARE_HEIGHT * 2) && (newY == (p->yPos - CHESS_SQUARE_HEIGHT * 1)))
+			{
+				return true;
+			}
+			if (newX == (p->xPos + CHESS_SQUARE_HEIGHT * 1) && (newY == (p->yPos + CHESS_SQUARE_HEIGHT * 2)))
+			{
+				return true;
+			}
+
+			//p->xPos+CHESS_SQUARE_HEIGHT
+			//p->yPos - (CHESS_SQUARE_HEIGHT * 2));
+			if (newX == p->xPos + CHESS_SQUARE_HEIGHT)
+			{
+				if (newY == p->yPos - (CHESS_SQUARE_HEIGHT * 2))
+				{
+					exit(1);
+					return true;
+				}
+			}
+
+			if (newX == p->xPos - CHESS_SQUARE_HEIGHT * 2)
+			{
+				if (newY == p->yPos + CHESS_SQUARE_HEIGHT * 1)
+				{
+					return true;
+				}
+			}
+
+			if (newX == (p->xPos - CHESS_SQUARE_HEIGHT * 1) && (newY == (p->yPos + CHESS_SQUARE_HEIGHT * 2)))
+			{
+				return true;
+			}
+			if (newX == (p->xPos - CHESS_SQUARE_HEIGHT * 2) && (newY == (p->yPos - CHESS_SQUARE_HEIGHT * 1)))
+			{
+				return true;
+			}
+
+			//this one
+			if (newX == (p->xPos - CHESS_SQUARE_HEIGHT * 1) && (newY == (p->yPos - CHESS_SQUARE_HEIGHT * 2)))
+			{
+				return true;
+			}
+
+		}
+
+		return false;
 	}
 }
 
@@ -796,11 +871,12 @@ void PrisonChess::mainLoop()
 	for (int i = 0; i < 8; i++)
 	{
 		bPieces.push_back(new ChessPiece);
-		bPieces[i]->xPos = 20+(i*100);
+		
+		bPieces[i]->xPos = CHESS_SQUARE_WIDTH/5 + (i*CHESS_SQUARE_WIDTH);
 		bPieces[i]->yPos = A;
 
 		wPieces.push_back(new ChessPiece);
-		wPieces[i]->xPos = 20 + (i * 100);
+		wPieces[i]->xPos = CHESS_SQUARE_WIDTH/5 + (i * CHESS_SQUARE_WIDTH);
 		wPieces[i]->yPos = H;
 	}
 
@@ -833,14 +909,14 @@ void PrisonChess::mainLoop()
 
 		topGridNumberTextTexture.render(gRenderer, 5, 5);
 
-		grid1Text.render(gRenderer, 5, 80);
-		grid2Text.render(gRenderer, 5, 180);
-		grid3Text.render(gRenderer, 5, 280);
-		grid4Text.render(gRenderer, 5, 380);
-		grid5Text.render(gRenderer, 5, 480);
-		grid6Text.render(gRenderer, 5, 580);
-		grid7Text.render(gRenderer, 5, 680);
-		grid8Text.render(gRenderer, 5, 780);
+		grid1Text.render(gRenderer, 5, A+CHESS_SQUARE_WIDTH/2);
+		grid2Text.render(gRenderer, 5, B + CHESS_SQUARE_WIDTH / 2);
+		grid3Text.render(gRenderer, 5, C + CHESS_SQUARE_WIDTH / 2);
+		grid4Text.render(gRenderer, 5, D + CHESS_SQUARE_WIDTH / 2);
+		grid5Text.render(gRenderer, 5, E + CHESS_SQUARE_WIDTH / 2);
+		grid6Text.render(gRenderer, 5, F + CHESS_SQUARE_WIDTH / 2);
+		grid7Text.render(gRenderer, 5, G + CHESS_SQUARE_WIDTH / 2);
+		grid8Text.render(gRenderer, 5, H + CHESS_SQUARE_WIDTH / 2);
 
 		//Update screen
 		SDL_RenderPresent(gRenderer);

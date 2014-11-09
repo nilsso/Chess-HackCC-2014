@@ -1,9 +1,21 @@
 #pragma once
 
+<<<<<<< HEAD
+#ifdef _WIN32
+#else
+
+#endif
+
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_thread.h>
+#include <SDL_ttf.h>
+=======
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_thread.h>
 #include <SDL2/SDL_ttf.h>
+>>>>>>> 5cb87b342ff9fc7e640e05299534d2b3a15f5d9c
 
 #include <cstdio>
 #include <string>
@@ -18,8 +30,8 @@ public:
 	const int SCREEN_WIDTH = 800;
 	const int SCREEN_HEIGHT = 800;
 
-	const int CHESS_SQUARE_WIDTH = 100;
-	const int CHESS_SQUARE_HEIGHT = 100;
+	const int CHESS_SQUARE_WIDTH = SCREEN_WIDTH / 8;
+	const int CHESS_SQUARE_HEIGHT = SCREEN_HEIGHT / 8;
 
 	const int ROOK_1 = 0;
 	const int KNIGHT_1 = 1;
@@ -30,14 +42,17 @@ public:
 	const int KNIGHT_2 = 6;
 	const int ROOK_2 = 7;
 
-	const int A = 20;
-	const int B = 120;
-	const int C = 220;
-	const int D = 320;
-	const int E = 420;
-	const int F = 520;
-	const int G = 620;
-	const int H = 720;
+	const int A = CHESS_SQUARE_WIDTH * 0 + CHESS_SQUARE_WIDTH / 5;
+	const int B = CHESS_SQUARE_WIDTH * 1 + CHESS_SQUARE_WIDTH / 5;
+	const int C = CHESS_SQUARE_WIDTH * 2 + CHESS_SQUARE_WIDTH / 5;
+	const int D = CHESS_SQUARE_WIDTH * 3 + CHESS_SQUARE_WIDTH / 5;
+	const int E = CHESS_SQUARE_WIDTH * 4 + CHESS_SQUARE_WIDTH / 5;
+	const int F = CHESS_SQUARE_WIDTH * 5 + CHESS_SQUARE_WIDTH / 5;
+	const int G = CHESS_SQUARE_WIDTH * 6 + CHESS_SQUARE_WIDTH / 5;
+	const int H = CHESS_SQUARE_WIDTH * 7 + CHESS_SQUARE_WIDTH / 5;
+
+
+	std::string assetPath;
 
 	//The window we'll be rendering to
 	SDL_Window* gWindow = NULL;
@@ -135,6 +150,7 @@ public:
 
 	void renderChessPieces();
 
+	
 
 	std::vector<SDL_Rect> bSquares;
 
@@ -157,8 +173,18 @@ public:
 	{
 		int xPos;
 		int yPos;
+
+		int pieceType;
+
+		char colLocation;
+		char rowLocation;
 	};
 
+<<<<<<< HEAD
+	void getPieceCharLocation();
+
+=======
+>>>>>>> 5cb87b342ff9fc7e640e05299534d2b3a15f5d9c
 	ChessPiece bRook1;
 
 	std::vector<ChessPiece*>wPieces;
@@ -182,5 +208,7 @@ public:
 	bool playGame = false;
 
 	bool saveScreenshotBMP(std::string filepath, SDL_Window* SDLWindow, SDL_Renderer* SDLRenderer);
+
+	bool checkIfValidMove(ChessPiece* p, int newX, int newY);
 };
 

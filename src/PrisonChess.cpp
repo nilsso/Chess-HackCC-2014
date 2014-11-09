@@ -497,215 +497,215 @@ void PrisonChess::renderChessBoard()
 	}
 }
 
-void PrisonChess::parseInput(bool turn)
-{
-	std::string moveStr;
-
-	if (turn == true)
-	{
-		printf("\n WHITE, please enter your move: \n");
-	}
-	else
-	{
-		printf("\n BLACK, please enter your move: \n");
-	}
-
-	std::getline(std::cin, moveStr);
-
-	char test = ' ';
-	char test2 = ' ';
-	char test3 = ' ';
-
-	if (moveStr.length() > 0)
-	{
-		test = moveStr.at(0);
-	}
-	else
-	{
-		printf("\ninvalid input, try again\n");
-		parseInput(whiteTurn);
-	}
-
-	if (moveStr.length() > 1)
-	{
-		test2 = moveStr.at(moveStr.length() - 1);
-	}
-
-	if (moveStr.length() > 2)
-	{
-		test3 = moveStr.at(moveStr.length() - 2);
-	}
-
-	int piece = 0;
-	int pieceX = 0;
-	int pieceY = 0;
-
-	switch (test)
-	{
-		case 'R':
-			test = moveStr.at(1);
-
-			if (test == '1')
-			{
-				piece = ROOK_1;
-			}
-			else
-			{
-				piece = ROOK_2;
-			}
-		break;
-
-		case 'K':
-			test = moveStr.at(1);
-
-			if (test == '1')
-			{
-				piece = KNIGHT_1;
-			}
-			else if (test == '2')
-			{
-				piece = KNIGHT_2;
-			}
-			else
-			{
-				piece = KING;
-			}
-
-		break;
-
-		case 'B':
-			test = moveStr.at(1);
-
-			if (test == '1')
-			{
-				piece = BISHOP_1;
-			}
-			else
-			{
-				piece = BISHOP_2;
-			}
-
-		break;
-
-		case 'Q':
-			piece = QUEEN;
-
-		break;
-
-		case 'T':
-			playGame = false;
-			break;
-
-		default:
-			printf("\ninvalid input, try again\n");
-			parseInput(whiteTurn);
-			break;
-	}
-
-	if (test == 'T')
-	{
-		return;
-	}
-
-	switch (test2)
-	{
-	case '1':
-		pieceY = A;
-		break;
-
-	case '2':
-		pieceY = B;
-		break;
-
-	case '3':
-		pieceY = C;
-		break;
-
-	case '4':
-		pieceY = D;
-		break;
-
-	case '5':
-		pieceY = E;
-		break;
-
-	case '6':
-		pieceY = F;
-		break;
-
-	case '7':
-		pieceY = G;
-		break;
-
-	case '8':
-		pieceY = H;
-		break;
-
-	default:
-		printf("\ninvalid input, try again\n");
-		parseInput(whiteTurn);
-		break;
-
-	}
-
-	switch (test3)
-	{
-	case 'A':
-		pieceX = A;
-		break;
-
-	case 'B':
-		pieceX = B;
-		break;
-
-	case 'C':
-		pieceX = C;
-		break;
-
-	case 'D':
-		pieceX = D;
-		break;
-
-	case 'E':
-		pieceX = E;
-		break;
-
-	case 'F':
-		pieceX = F;
-		break;
-
-	case 'G':
-		pieceX = G;
-		break;
-
-	case 'H':
-		pieceX = H;
-		break;
-
-	default:
-		printf("\ninvalid input, try again\n");
-		parseInput(whiteTurn);
-		break;
-
-	}
-	if (turn)
-	{
-			wPieces[piece]->xPos = pieceX;
-			wPieces[piece]->yPos = pieceY;
-
-	}
-	else
-	{
-		bPieces[piece]->xPos = pieceX;
-		bPieces[piece]->yPos = pieceY;
-
-
-	}
-
-
-
-
-}
+//void PrisonChess::parseInput(bool turn)
+//{
+//	std::string moveStr;
+//
+//	if (turn == true)
+//	{
+//		printf("\n WHITE, please enter your move: \n");
+//	}
+//	else
+//	{
+//		printf("\n BLACK, please enter your move: \n");
+//	}
+//
+//	std::getline(std::cin, moveStr);
+//
+//	char test = ' ';
+//	char test2 = ' ';
+//	char test3 = ' ';
+//
+//	if (moveStr.length() > 0)
+//	{
+//		test = moveStr.at(0);
+//	}
+//	else
+//	{
+//		printf("\ninvalid input, try again\n");
+//		parseInput(whiteTurn);
+//	}
+//
+//	if (moveStr.length() > 1)
+//	{
+//		test2 = moveStr.at(moveStr.length() - 1);
+//	}
+//
+//	if (moveStr.length() > 2)
+//	{
+//		test3 = moveStr.at(moveStr.length() - 2);
+//	}
+//
+//	int piece = 0;
+//	int pieceX = 0;
+//	int pieceY = 0;
+//
+//	switch (test)
+//	{
+//		case 'R':
+//			test = moveStr.at(1);
+//
+//			if (test == '1')
+//			{
+//				piece = ROOK_1;
+//			}
+//			else
+//			{
+//				piece = ROOK_2;
+//			}
+//		break;
+//
+//		case 'K':
+//			test = moveStr.at(1);
+//
+//			if (test == '1')
+//			{
+//				piece = KNIGHT_1;
+//			}
+//			else if (test == '2')
+//			{
+//				piece = KNIGHT_2;
+//			}
+//			else
+//			{
+//				piece = KING;
+//			}
+//
+//		break;
+//
+//		case 'B':
+//			test = moveStr.at(1);
+//
+//			if (test == '1')
+//			{
+//				piece = BISHOP_1;
+//			}
+//			else
+//			{
+//				piece = BISHOP_2;
+//			}
+//
+//		break;
+//
+//		case 'Q':
+//			piece = QUEEN;
+//
+//		break;
+//
+//		case 'T':
+//			playGame = false;
+//			break;
+//
+//		default:
+//			printf("\ninvalid input, try again\n");
+//			parseInput(whiteTurn);
+//			break;
+//	}
+//
+//	if (test == 'T')
+//	{
+//		return;
+//	}
+//
+//	switch (test2)
+//	{
+//	case '1':
+//		pieceY = A;
+//		break;
+//
+//	case '2':
+//		pieceY = B;
+//		break;
+//
+//	case '3':
+//		pieceY = C;
+//		break;
+//
+//	case '4':
+//		pieceY = D;
+//		break;
+//
+//	case '5':
+//		pieceY = E;
+//		break;
+//
+//	case '6':
+//		pieceY = F;
+//		break;
+//
+//	case '7':
+//		pieceY = G;
+//		break;
+//
+//	case '8':
+//		pieceY = H;
+//		break;
+//
+//	default:
+//		printf("\ninvalid input, try again\n");
+//		parseInput(whiteTurn);
+//		break;
+//
+//	}
+//
+//	switch (test3)
+//	{
+//	case 'A':
+//		pieceX = A;
+//		break;
+//
+//	case 'B':
+//		pieceX = B;
+//		break;
+//
+//	case 'C':
+//		pieceX = C;
+//		break;
+//
+//	case 'D':
+//		pieceX = D;
+//		break;
+//
+//	case 'E':
+//		pieceX = E;
+//		break;
+//
+//	case 'F':
+//		pieceX = F;
+//		break;
+//
+//	case 'G':
+//		pieceX = G;
+//		break;
+//
+//	case 'H':
+//		pieceX = H;
+//		break;
+//
+//	default:
+//		printf("\ninvalid input, try again\n");
+//		parseInput(whiteTurn);
+//		break;
+//
+//	}
+//	if (turn)
+//	{
+//			wPieces[piece]->xPos = pieceX;
+//			wPieces[piece]->yPos = pieceY;
+//
+//	}
+//	else
+//	{
+//		bPieces[piece]->xPos = pieceX;
+//		bPieces[piece]->yPos = pieceY;
+//
+//
+//	}
+//
+//
+//
+//
+//}
 
 void PrisonChess::setupGridNumbers()
 {
@@ -792,82 +792,78 @@ void PrisonChess::renderChessPieces()
 	}
 }
 
-bool PrisonChess::checkIfValidMove(ChessPiece* p, int newX, int newY)
-{
-
-
-
-
-	printf("%i\n", p->pieceType);
-	
-
-	if (p->pieceType == KNIGHT_1 | p->pieceType == KNIGHT_2)
-	{
-		if ((newX == p->xPos + CHESS_SQUARE_HEIGHT))
-		{
-			if (newY == p->yPos - (CHESS_SQUARE_HEIGHT * 2))
-			{
-				return true;
-			}
-			if (newX == (p->xPos + CHESS_SQUARE_HEIGHT * 2) && (newY == (p->yPos + CHESS_SQUARE_HEIGHT * 1)))
-			{
-				return true;
-			}
-			if (newX == (p->xPos + CHESS_SQUARE_HEIGHT * 2) && (newY == (p->yPos - CHESS_SQUARE_HEIGHT * 1)))
-			{
-				return true;
-			}
-			if (newX == (p->xPos + CHESS_SQUARE_HEIGHT * 1) && (newY == (p->yPos + CHESS_SQUARE_HEIGHT * 2)))
-			{
-				return true;
-			}
-
-			//p->xPos+CHESS_SQUARE_HEIGHT
-			//p->yPos - (CHESS_SQUARE_HEIGHT * 2));
-			if (newX == p->xPos + CHESS_SQUARE_HEIGHT)
-			{
-				if (newY == p->yPos - (CHESS_SQUARE_HEIGHT * 2))
-				{
-					exit(1);
-					return true;
-				}
-			}
-
-			if (newX == p->xPos - CHESS_SQUARE_HEIGHT * 2)
-			{
-				if (newY == p->yPos + CHESS_SQUARE_HEIGHT * 1)
-				{
-					return true;
-				}
-			}
-
-			if (newX == (p->xPos - CHESS_SQUARE_HEIGHT * 1) && (newY == (p->yPos + CHESS_SQUARE_HEIGHT * 2)))
-			{
-				return true;
-			}
-			if (newX == (p->xPos - CHESS_SQUARE_HEIGHT * 2) && (newY == (p->yPos - CHESS_SQUARE_HEIGHT * 1)))
-			{
-				return true;
-			}
-
-			//this one
-			if (newX == (p->xPos - CHESS_SQUARE_HEIGHT * 1) && (newY == (p->yPos - CHESS_SQUARE_HEIGHT * 2)))
-			{
-				return true;
-			}
-
-		}
-
-		return false;
-	}
-}
+//bool PrisonChess::checkIfValidMove(ChessPiece* p, int newX, int newY)
+//{
+//
+//
+//
+//
+//	printf("%i\n", p->pieceType);
+//	
+//
+//	if (p->pieceType == KNIGHT_1 | p->pieceType == KNIGHT_2)
+//	{
+//		if ((newX == p->xPos + CHESS_SQUARE_HEIGHT))
+//		{
+//			if (newY == p->yPos - (CHESS_SQUARE_HEIGHT * 2))
+//			{
+//				return true;
+//			}
+//			if (newX == (p->xPos + CHESS_SQUARE_HEIGHT * 2) && (newY == (p->yPos + CHESS_SQUARE_HEIGHT * 1)))
+//			{
+//				return true;
+//			}
+//			if (newX == (p->xPos + CHESS_SQUARE_HEIGHT * 2) && (newY == (p->yPos - CHESS_SQUARE_HEIGHT * 1)))
+//			{
+//				return true;
+//			}
+//			if (newX == (p->xPos + CHESS_SQUARE_HEIGHT * 1) && (newY == (p->yPos + CHESS_SQUARE_HEIGHT * 2)))
+//			{
+//				return true;
+//			}
+//
+//			//p->xPos+CHESS_SQUARE_HEIGHT
+//			//p->yPos - (CHESS_SQUARE_HEIGHT * 2));
+//			if (newX == p->xPos + CHESS_SQUARE_HEIGHT)
+//			{
+//				if (newY == p->yPos - (CHESS_SQUARE_HEIGHT * 2))
+//				{
+//					exit(1);
+//					return true;
+//				}
+//			}
+//
+//			if (newX == p->xPos - CHESS_SQUARE_HEIGHT * 2)
+//			{
+//				if (newY == p->yPos + CHESS_SQUARE_HEIGHT * 1)
+//				{
+//					return true;
+//				}
+//			}
+//
+//			if (newX == (p->xPos - CHESS_SQUARE_HEIGHT * 1) && (newY == (p->yPos + CHESS_SQUARE_HEIGHT * 2)))
+//			{
+//				return true;
+//			}
+//			if (newX == (p->xPos - CHESS_SQUARE_HEIGHT * 2) && (newY == (p->yPos - CHESS_SQUARE_HEIGHT * 1)))
+//			{
+//				return true;
+//			}
+//
+//			//this one
+//			if (newX == (p->xPos - CHESS_SQUARE_HEIGHT * 1) && (newY == (p->yPos - CHESS_SQUARE_HEIGHT * 2)))
+//			{
+//				return true;
+//			}
+//
+//		}
+//
+//		return false;
+//	}
+//}
 
 void PrisonChess::mainLoop()
 {
-	printf("PRESS 0 TO START GAME\n");
-	printf("ENTER T TO TERMINATE GAME\n");
-	printf("PRESS S TO SAVE SCREENSHOT\n");
-
 	for (int i = 0; i < 8; i++)
 	{
 		bPieces.push_back(new ChessPiece);

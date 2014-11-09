@@ -1,21 +1,21 @@
 #pragma once
 
-<<<<<<< HEAD
 #ifdef _WIN32
-#else
-
-#endif
-
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_thread.h>
 #include <SDL_ttf.h>
-=======
+#else
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_thread.h>
 #include <SDL2/SDL_ttf.h>
->>>>>>> 5cb87b342ff9fc7e640e05299534d2b3a15f5d9c
+#endif
+
+
+
+
+
 
 #include <cstdio>
 #include <string>
@@ -180,11 +180,6 @@ public:
 		char rowLocation;
 	};
 
-<<<<<<< HEAD
-	void getPieceCharLocation();
-
-=======
->>>>>>> 5cb87b342ff9fc7e640e05299534d2b3a15f5d9c
 	ChessPiece bRook1;
 
 	std::vector<ChessPiece*>wPieces;

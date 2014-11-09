@@ -19,8 +19,6 @@ Piece::~Piece()
 
 bool Piece::canMove(Piece *piece, int x, int y)
 {
-    //piece->y_ += (piece->color_ == PColor::BLACK ? 1 : -1) * y;
-
     switch (piece->type_) {
         // Pawn "is move valid" logic
         case (PType::PAWN):
@@ -225,9 +223,6 @@ void Board::printBoard(){
                  case (PType::KING):
                      cout << (board[y][x]->color_ == PColor::BLACK ? 'K' : 'k');
                      break;
-                 //default:
-                     //cout << 'x';
-                     //break;
              }
          }
       }
